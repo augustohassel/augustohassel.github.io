@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+
+const title = "Augusto Hassel | HasselPunk";
+const description = "Sitio personal, portfolio y blog de Augusto Hassel.";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-center items-center px-4">
+    <main class="max-w-2xl text-center space-y-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Modernización en progreso (Astro 5 + Tailwind)
+      </div>
+
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+        Augusto Hassel
+      </h1>
+
+      <p class="text-lg text-slate-400 leading-relaxed">
+        Bienvenido a <span class="text-slate-200 font-semibold">HasselPunk</span>. Estamos migrando y modernizando la plataforma hacia una nueva arquitectura de alto rendimiento.
+      </p>
+
+      <div class="pt-4 flex flex-wrap justify-center gap-4 text-sm">
+        <a
+          href="https://github.com/augustohassel"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors border border-slate-700/60"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://linkedin.com/in/augustohassel"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium transition-colors shadow-lg shadow-emerald-900/20"
+        >
+          LinkedIn
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

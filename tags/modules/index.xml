@@ -1,26 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Modules on HasselPunk</title>
-    <link>/tags/modules/</link>
-    <description>Recent content in Modules on HasselPunk</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es-AR</language>
-    <lastBuildDate>Fri, 21 Feb 2020 01:45:14 -0300</lastBuildDate>
-    
-	<atom:link href="/tags/modules/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Basic LogIn Modularizado</title>
-      <link>/blog/basicloginmodularizado/</link>
-      <pubDate>Fri, 21 Feb 2020 01:45:14 -0300</pubDate>
-      
-      <guid>/blog/basicloginmodularizado/</guid>
-      <description>Para los ansiosos como yo: aquí el proyecto en GitHub desde donde pueden obtener una versión básica funcional! 😁
-Siendo este es mi primero posteo, va a existir mucha referencia a desarrollos que me encantaría poder explayar pero prometo intentar mantenerme concentrado y, en todo caso, si gustan, continuaré explayándome en otra ocasión.
-La motivaciónDesde el momento en que empecé a armar tableros en Shiny me encontré con la necesidad de brindar permisos a usuarios.</description>
-    </item>
-    
-  </channel>
-</rss>
