@@ -5,7 +5,7 @@ Este documento reúne las entidades, conceptos técnicos y jerga funcional del s
 ---
 
 ### HasselPunk
-- **Definición**: Identidad digital, marca personal y nombre de dominio histórico de Augusto Hassel para su sitio web y blog profesional.
+- **Definición**: Identidad digital, marca personal y nombre de dominio histórico de Augusto Hassel para su sitio web y blog profesional. Surge de la combinación de "Hassel" (su apellido) y la filosofía "punk" como postura de vida y trabajo: desafiar convenciones, cuestionar lo establecido con pensamiento crítico, actuar con franqueza directa y comunicar ideas complejas de finanzas, tecnología y negocios sin rodeos ni imposturas.
 - **Alcance / Propósito**: Nombre del proyecto y del sitio web publicado en [www.hasselpunk.com](https://www.hasselpunk.com).
 - **Lo que NO es**: No es un producto comercial independiente ni una organización externa.
 
@@ -59,3 +59,10 @@ Este documento reúne las entidades, conceptos técnicos y jerga funcional del s
 - **Definición**: Nombres abstractos de color y estilo definidos por la especificación de Material Design 3 (`primary`, `surface`, `on-surface`, `container`, `outline`) que representan la función y contraste de un elemento en lugar de un valor cromático fijo.
 - **Alcance / Propósito**: Facilitar la conmutación fluida entre tema claro y tema oscuro mediante variables CSS y utilidades Tailwind, preservando el contraste WCAG AA.
 - **Lo que NO es**: No son clases de colores hardcodeados (como `slate-900` o `emerald-400`), sino roles contextuales dinámicos.
+
+---
+
+### Cobertura en Medios (Prensa y Autor)
+- **Definición**: Selección curada de publicaciones periodísticas de terceros (*La Nación*, *Forbes Argentina*, *iProUP*) y ensayos autobiográficos de autor (LinkedIn Pulse) que documentan hitos profesionales, rondas de inversión, alianzas y lecciones aprendidas de emprendimientos pasados (ej. Parra Payments).
+- **Alcance / Propósito**: Brindar respaldo y trazabilidad pública a la trayectoria profesional sin caer en la autopromoción desmedida, estructurada con metadatos tipados y enlaces externos verificados.
+- **Lo que NO es**: No es un repositorio exhaustivo de noticias ni un feed dinámico automatizado de medios.
