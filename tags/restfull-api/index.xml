@@ -1,33 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Restfull API on HasselPunk</title>
-    <link>/tags/restfull-api/</link>
-    <description>Recent content in Restfull API on HasselPunk</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es-AR</language>
-    <lastBuildDate>Wed, 22 Apr 2020 22:44:05 -0300</lastBuildDate>
-    
-	<atom:link href="/tags/restfull-api/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Conector API BO (MtR)</title>
-      <link>/projects/acyrsa/</link>
-      <pubDate>Wed, 22 Apr 2020 22:44:05 -0300</pubDate>
-      
-      <guid>/projects/acyrsa/</guid>
-      <description>acyRsa es una librería de R que permite conectarse a la API de Back Office de Matba Rofex.Para mayor información sobre la misma, ingresa al siguiente link para ver la documentación completa: documentación acyRsa.Si necesitas usar otros métodos de la API que no estén disponibles actualmente, hacémelo saber en aquíApoyá este desarrollo invitándome un café!</description>
-    </item>
-    
-    <item>
-      <title>Conector rRofex</title>
-      <link>/projects/rrofex/</link>
-      <pubDate>Thu, 02 Jan 2020 22:44:05 -0300</pubDate>
-      
-      <guid>/projects/rrofex/</guid>
-      <description>rRofex es una librería de R que permite conectarse a Mercado de Capitales Argentino.Es un proyecto OpenSource desarrollado desde Primary, empresa de tecnología de Matba Rofex.Esta librería se encuentra publicada oficialmente en CRAN y su versión de desarrollo está en GitHubPara mayor información sobre la misma visitá rRofex.A continuación les dejo un webinar que armamos para dar a conocer su potencial, donde incluso hablamos de las posibilidades para usarla en trading algorítmico.</description>
-    </item>
-    
-  </channel>
-</rss>

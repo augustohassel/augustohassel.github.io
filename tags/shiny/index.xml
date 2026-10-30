@@ -1,56 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Shiny on HasselPunk</title>
-    <link>/tags/shiny/</link>
-    <description>Recent content in Shiny on HasselPunk</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es-AR</language>
-    <lastBuildDate>Mon, 28 Sep 2020 22:11:14 -0300</lastBuildDate>
-    
-	<atom:link href="/tags/shiny/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Mejorando la Performance en Shiny con Pins</title>
-      <link>/blog/mejorandoperformanceenshinyconpins/</link>
-      <pubDate>Mon, 28 Sep 2020 22:11:14 -0300</pubDate>
-      
-      <guid>/blog/mejorandoperformanceenshinyconpins/</guid>
-      <description>TL;DR Si tenes tenes una aplicación en Shiny que tarda mucho en cargar debido a un proceso de la data que es intensivo en tiempo, y no es importante que el resultado se calcule en real time, entonces seguramente tengas que empezar a usar la librería pins.
-Esta es la historia de cómo logré reducir el tiempo de carga de mi aplicación de 44 a 4 segundos, aunque lastimosamente no puedo mostrarla por cuestiones de privacidad… motivo por el cual tedrán que confiar en mi palabra y saber que quien llegue hasta el final tendrá su recompensa.</description>
-    </item>
-    
-    <item>
-      <title>Serverless Shiny en Google Cloud</title>
-      <link>/blog/2020-06-13serverlessshinyengooglecloud/</link>
-      <pubDate>Mon, 15 Jun 2020 18:45:14 -0300</pubDate>
-      
-      <guid>/blog/2020-06-13serverlessshinyengooglecloud/</guid>
-      <description>TL;DR Es posible usar Cloud Run para deployar una aplicación en Shiny, aunque si necesitas websocket tendrás que dar una vuelta más y usar Cloud Run for Anthos para subir la aplicación a un cluster de Kubernetes. Esta es mi aplicación: https://demo.hasselpunk.com/rRofex y aquí está el código en GitHub
-La idea con la que arranqué a esribir este post fue ir mencionando las cosas que fui haciendo para lograr correr una aplicación de Shiny en Google Cloud usando Cloud Run en vez de levantar una máquina virtual que contenga al servidor.</description>
-    </item>
-    
-    <item>
-      <title>Basic LogIn Modularizado</title>
-      <link>/blog/basicloginmodularizado/</link>
-      <pubDate>Fri, 21 Feb 2020 01:45:14 -0300</pubDate>
-      
-      <guid>/blog/basicloginmodularizado/</guid>
-      <description>Para los ansiosos como yo: aquí el proyecto en GitHub desde donde pueden obtener una versión básica funcional! 😁
-Siendo este es mi primero posteo, va a existir mucha referencia a desarrollos que me encantaría poder explayar pero prometo intentar mantenerme concentrado y, en todo caso, si gustan, continuaré explayándome en otra ocasión.
-La motivaciónDesde el momento en que empecé a armar tableros en Shiny me encontré con la necesidad de brindar permisos a usuarios.</description>
-    </item>
-    
-    <item>
-      <title>HasselPunk BO Companion</title>
-      <link>/projects/hasselpunk-bo-companion/</link>
-      <pubDate>Sat, 04 Jan 2020 22:44:05 -0300</pubDate>
-      
-      <guid>/projects/hasselpunk-bo-companion/</guid>
-      <description>HasselPunk BO Companion es una suite de soluciones dedicada a agilizar procesos dentro de una Sociedad de Bolsa.La instalación básica consta de los siguientes tableros:
-Home. El punto de partida: ir!Administrador. Gestión y administración de usuarios.Recursos Humanos. Gestión y administración de personas.Comercial. Acceso a información y análisis de clientes.Tablero AdministradorDentro de este tablero se puede:Crear usuariosRecuperar contraseñasGestionar permisos: cada tablero tiene 3 niveles de permisos distintos para poder habilitar la información únicamente a los usuarios que la necesitenVer últimas conexionesVincular managers con usuarios: esto es muy útil cuando se quiere brindar permisos al tablero de Comercial a los productores y/o managers de cuentas, para que vean únicamente sus cuentas vinculadasTablero Recursos HumanosAquí se podrá:Dar de alta personas.</description>
-    </item>
-    
-  </channel>
-</rss>

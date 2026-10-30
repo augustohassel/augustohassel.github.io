@@ -1,77 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Blog on HasselPunk</title>
-    <link>/blog/</link>
-    <description>Recent content in Blog on HasselPunk</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es-AR</language>
-    <lastBuildDate>Mon, 28 Sep 2020 22:11:14 -0300</lastBuildDate>
-    
-	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Mejorando la Performance en Shiny con Pins</title>
-      <link>/blog/mejorandoperformanceenshinyconpins/</link>
-      <pubDate>Mon, 28 Sep 2020 22:11:14 -0300</pubDate>
-      
-      <guid>/blog/mejorandoperformanceenshinyconpins/</guid>
-      <description>TL;DR Si tenes tenes una aplicación en Shiny que tarda mucho en cargar debido a un proceso de la data que es intensivo en tiempo, y no es importante que el resultado se calcule en real time, entonces seguramente tengas que empezar a usar la librería pins.
-Esta es la historia de cómo logré reducir el tiempo de carga de mi aplicación de 44 a 4 segundos, aunque lastimosamente no puedo mostrarla por cuestiones de privacidad… motivo por el cual tedrán que confiar en mi palabra y saber que quien llegue hasta el final tendrá su recompensa.</description>
-    </item>
-    
-    <item>
-      <title>Serverless Shiny en Google Cloud</title>
-      <link>/blog/2020-06-13serverlessshinyengooglecloud/</link>
-      <pubDate>Mon, 15 Jun 2020 18:45:14 -0300</pubDate>
-      
-      <guid>/blog/2020-06-13serverlessshinyengooglecloud/</guid>
-      <description>TL;DR Es posible usar Cloud Run para deployar una aplicación en Shiny, aunque si necesitas websocket tendrás que dar una vuelta más y usar Cloud Run for Anthos para subir la aplicación a un cluster de Kubernetes. Esta es mi aplicación: https://demo.hasselpunk.com/rRofex y aquí está el código en GitHub
-La idea con la que arranqué a esribir este post fue ir mencionando las cosas que fui haciendo para lograr correr una aplicación de Shiny en Google Cloud usando Cloud Run en vez de levantar una máquina virtual que contenga al servidor.</description>
-    </item>
-    
-    <item>
-      <title>Mi Primer Repositorio en Docker</title>
-      <link>/blog/miprimerrepositorioendocker/</link>
-      <pubDate>Tue, 14 Apr 2020 23:45:14 -0300</pubDate>
-      
-      <guid>/blog/miprimerrepositorioendocker/</guid>
-      <description>TL;DR La imagen que he creado pueden encontrarla aquí: https://hub.docker.com/r/augustohassel/r_ubuntu
-Este posteo no lo tenía planificado y surge de querer bajar a papel varias lecciones aprendidas luego de no poder resolver un problema y tener que realizar un workaround en torno al mismo.
-El desafíoEl objetivo que tenía por delante era desarrollar una API que generase un informe para ciertos clientes según ciertos parámetros. En sí, no era algo complicado, además ya hemos visto cómo generar una API con Plumber, armar informes con RMarkdown y encapsusarlo todo con Docker.</description>
-    </item>
-    
-    <item>
-      <title>Exponiendo Funciones de R en la Nube: Parte 2</title>
-      <link>/blog/exponiendofuncionesderenlanube-parte_2/</link>
-      <pubDate>Fri, 20 Mar 2020 23:45:14 -0300</pubDate>
-      
-      <guid>/blog/exponiendofuncionesderenlanube-parte_2/</guid>
-      <description>TL;DR: La configuración de Docker necesaria para subir la API que hicimos en el posteo anterior la pueden encontrar aquí: https://github.com/augustohassel/Demo-APIs 👽
-En este segundo posteo de la serie, vamos a intentar explicar en pocas palabras (y viniendo de un ‘no experto’) qué es Docker, para luego hacer un paso a paso que nos ayude a escribir nuestro primer Dockerfile que sirva para correr la API que hemos creado en el posteo anterior.</description>
-    </item>
-    
-    <item>
-      <title>Exponiendo Funciones de R en la Nube: Parte 1</title>
-      <link>/blog/exponiendofuncionesderenlanube-parte_1/</link>
-      <pubDate>Mon, 09 Mar 2020 23:45:14 -0300</pubDate>
-      
-      <guid>/blog/exponiendofuncionesderenlanube-parte_1/</guid>
-      <description>TL;DR: El resultado final de este trabajo lo pueden encontrar en el siguiente link https://demo-api.hasselpunk.com/ 😁
-Este será el primer posteo de una serie de 3, los cuales tendrán dos intenciones: mostrar como exponer funciones de R en la nube y dejar por escrito ciertas recomendaciones que surgieron en el proceso de desarrollo. Estoy seguro que estos consejos servirán a más de uno (incluso a mi ‘yo’ del futuro!</description>
-    </item>
-    
-    <item>
-      <title>Basic LogIn Modularizado</title>
-      <link>/blog/basicloginmodularizado/</link>
-      <pubDate>Fri, 21 Feb 2020 01:45:14 -0300</pubDate>
-      
-      <guid>/blog/basicloginmodularizado/</guid>
-      <description>Para los ansiosos como yo: aquí el proyecto en GitHub desde donde pueden obtener una versión básica funcional! 😁
-Siendo este es mi primero posteo, va a existir mucha referencia a desarrollos que me encantaría poder explayar pero prometo intentar mantenerme concentrado y, en todo caso, si gustan, continuaré explayándome en otra ocasión.
-La motivaciónDesde el momento en que empecé a armar tableros en Shiny me encontré con la necesidad de brindar permisos a usuarios.</description>
-    </item>
-    
-  </channel>
-</rss>

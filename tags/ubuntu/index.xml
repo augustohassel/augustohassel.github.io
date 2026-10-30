@@ -1,36 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Ubuntu on HasselPunk</title>
-    <link>/tags/ubuntu/</link>
-    <description>Recent content in Ubuntu on HasselPunk</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es-AR</language>
-    <lastBuildDate>Tue, 14 Apr 2020 23:45:14 -0300</lastBuildDate>
-    
-	<atom:link href="/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Mi Primer Repositorio en Docker</title>
-      <link>/blog/miprimerrepositorioendocker/</link>
-      <pubDate>Tue, 14 Apr 2020 23:45:14 -0300</pubDate>
-      
-      <guid>/blog/miprimerrepositorioendocker/</guid>
-      <description>TL;DR La imagen que he creado pueden encontrarla aquí: https://hub.docker.com/r/augustohassel/r_ubuntu
-Este posteo no lo tenía planificado y surge de querer bajar a papel varias lecciones aprendidas luego de no poder resolver un problema y tener que realizar un workaround en torno al mismo.
-El desafíoEl objetivo que tenía por delante era desarrollar una API que generase un informe para ciertos clientes según ciertos parámetros. En sí, no era algo complicado, además ya hemos visto cómo generar una API con Plumber, armar informes con RMarkdown y encapsusarlo todo con Docker.</description>
-    </item>
-    
-    <item>
-      <title>Exponiendo Funciones de R en la Nube: Parte 2</title>
-      <link>/blog/exponiendofuncionesderenlanube-parte_2/</link>
-      <pubDate>Fri, 20 Mar 2020 23:45:14 -0300</pubDate>
-      
-      <guid>/blog/exponiendofuncionesderenlanube-parte_2/</guid>
-      <description>TL;DR: La configuración de Docker necesaria para subir la API que hicimos en el posteo anterior la pueden encontrar aquí: https://github.com/augustohassel/Demo-APIs 👽
-En este segundo posteo de la serie, vamos a intentar explicar en pocas palabras (y viniendo de un ‘no experto’) qué es Docker, para luego hacer un paso a paso que nos ayude a escribir nuestro primer Dockerfile que sirva para correr la API que hemos creado en el posteo anterior.</description>
-    </item>
-    
-  </channel>
-</rss>
