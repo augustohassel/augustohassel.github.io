@@ -1,53 +1,111 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+import Badge from '../components/Badge.astro';
+import Button from '../components/Button.astro';
 
 const title = "Augusto Hassel | HasselPunk";
-const description = "Sitio personal, portfolio y blog de Augusto Hassel.";
+const description = "Sitio personal, portfolio profesional y blog de Augusto Hassel. Modernización con Astro 5 y Material Design 3.";
 ---
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-  </head>
-  <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-center items-center px-4">
-    <main class="max-w-2xl text-center space-y-6">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        Modernización en progreso (Astro 5 + Tailwind)
-      </div>
+<BaseLayout title={title} description={description}>
+  <section class="py-12 sm:py-16 text-center space-y-6">
+    <div class="inline-flex items-center gap-2">
+      <Badge variant="primary" size="md">
+        <span class="w-2 h-2 rounded-full bg-md-primary animate-pulse"></span>
+        Material Design 3 · Astro 5
+      </Badge>
+    </div>
 
-      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-        Augusto Hassel
-      </h1>
+    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-md-on-surface">
+      Augusto Hassel
+    </h1>
 
-      <p class="text-lg text-slate-400 leading-relaxed">
-        Bienvenido a <span class="text-slate-200 font-semibold">HasselPunk</span>. Estamos migrando y modernizando la plataforma hacia una nueva arquitectura de alto rendimiento.
+    <p class="max-w-2xl mx-auto text-lg sm:text-xl text-md-on-surface-variant leading-relaxed">
+      Bienvenido a <span class="font-semibold text-md-on-surface">HasselPunk</span>. Sitio personal, portfolio profesional y blog de ingeniería y finanzas cuantitativas.
+    </p>
+
+    <div class="pt-2 flex flex-wrap items-center justify-center gap-4">
+      <Button
+        as="a"
+        href="https://github.com/augustohassel"
+        variant="filled"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+        </svg>
+        GitHub
+      </Button>
+
+      <Button
+        as="a"
+        href="https://linkedin.com/in/augustohassel"
+        variant="tonal"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+        </svg>
+        LinkedIn
+      </Button>
+
+      <Button
+        as="a"
+        href="#proyectos"
+        variant="outlined"
+      >
+        Ver proyectos
+      </Button>
+    </div>
+  </section>
+
+  <!-- Muestra de componentes y diseño responsivo -->
+  <section id="proyectos" class="pt-8 pb-16 space-y-8">
+    <div class="space-y-2">
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-md-on-surface">
+        Pilares de la Plataforma
+      </h2>
+      <p class="text-md-on-surface-variant text-sm sm:text-base">
+        Componentes modulares de Material Design 3 con contraste WCAG AA, paleta tonal y soporte nativo de modo claro/oscuro.
       </p>
+    </div>
 
-      <div class="pt-4 flex flex-wrap justify-center gap-4 text-sm">
-        <a
-          href="https://github.com/augustohassel"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors border border-slate-700/60"
-        >
-          GitHub
-        </a>
-        <a
-          href="https://linkedin.com/in/augustohassel"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium transition-colors shadow-lg shadow-emerald-900/20"
-        >
-          LinkedIn
-        </a>
-      </div>
-    </main>
-  </body>
-</html>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <Card variant="outlined" class="space-y-4">
+        <div class="flex items-center justify-between">
+          <Badge variant="primary">Material You</Badge>
+          <span class="text-xs text-md-on-surface-variant font-mono">01</span>
+        </div>
+        <h3 class="text-xl font-bold text-md-on-surface">Diseño y Accesibilidad</h3>
+        <p class="text-sm text-md-on-surface-variant leading-relaxed">
+          Paleta basada en roles semánticos (Superficies, Contenedores, Primario y Secundario) garantizando alto contraste y soporte de alto contraste del SO.
+        </p>
+      </Card>
+
+      <Card variant="filled" class="space-y-4">
+        <div class="flex items-center justify-between">
+          <Badge variant="secondary">Zero FOUC</Badge>
+          <span class="text-xs text-md-on-surface-variant font-mono">02</span>
+        </div>
+        <h3 class="text-xl font-bold text-md-on-surface">Modo Claro y Oscuro</h3>
+        <p class="text-sm text-md-on-surface-variant leading-relaxed">
+          Detección automática del sistema operativo mediante media queries, conmutador accesible y persistencia segura en almacenamiento local.
+        </p>
+      </Card>
+
+      <Card variant="elevated" class="space-y-4">
+        <div class="flex items-center justify-between">
+          <Badge variant="outline">Astro 5</Badge>
+          <span class="text-xs text-md-on-surface-variant font-mono">03</span>
+        </div>
+        <h3 class="text-xl font-bold text-md-on-surface">Rendimiento Extremo</h3>
+        <p class="text-sm text-md-on-surface-variant leading-relaxed">
+          Generación estática pura (SSG), fuentes auto-hospedadas sin dependencias externas de terceros y validación continua de enlaces internos.
+        </p>
+      </Card>
+    </div>
+  </section>
+</BaseLayout>

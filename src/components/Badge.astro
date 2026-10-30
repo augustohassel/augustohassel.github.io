@@ -1,0 +1,41 @@
+---
+// Badge.astro - Indicador de estado y tecnologías Material Design 3
+interface Props {
+  variant?: 'primary' | 'secondary' | 'surface' | 'outline';
+  size?: 'sm' | 'md';
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  variant = 'surface',
+  size = 'md',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const variantStyles = {
+  primary: 'bg-md-primary-container text-md-on-primary-container border border-transparent',
+  secondary: 'bg-md-secondary-container text-md-on-secondary-container border border-transparent',
+  surface: 'bg-md-surface-variant text-md-on-surface-variant border border-transparent',
+  outline: 'bg-transparent text-md-on-surface-variant border border-md-outline-variant',
+};
+
+const sizeStyles = {
+  sm: 'text-xs px-2.5 py-0.5 rounded-full font-medium',
+  md: 'text-xs sm:text-sm px-3 py-1 rounded-full font-medium',
+};
+---
+
+<span
+  class:list={[
+    'm3-badge inline-flex items-center gap-1.5 transition-colors',
+    variantStyles[variant],
+    sizeStyles[size],
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</span>
+

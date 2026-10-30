@@ -1,0 +1,50 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const navItems: NavItem[] = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Sobre mí', href: '/#sobre-mi' },
+  { label: 'Proyectos', href: '/#proyectos' },
+  { label: 'Blog', href: '/#blog' },
+];
+---
+
+<header class="sticky top-0 z-40 w-full backdrop-blur-md bg-md-surface/85 border-b border-md-outline-variant/30 transition-colors">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Brand / Logotipo -->
+    <a
+      href="/"
+      class="flex items-center gap-3 font-semibold text-lg text-md-on-surface hover:text-md-primary transition-colors focus:outline-none focus:ring-2 focus:ring-md-primary rounded-lg px-2 py-1"
+      aria-label="HasselPunk - Inicio"
+    >
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-md-primary-container text-md-on-primary-container font-bold text-sm">
+        H
+      </span>
+      <span>Augusto Hassel</span>
+    </a>
+
+    <!-- Navegación y Conmutador de Tema -->
+    <div class="flex items-center gap-2 sm:gap-6">
+      <nav class="hidden sm:flex items-center gap-1" aria-label="Navegación principal">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class="px-3 py-2 text-sm font-medium rounded-full text-md-on-surface-variant hover:text-md-on-surface hover:bg-md-surface-variant/40 transition-colors focus:outline-none focus:ring-2 focus:ring-md-primary"
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="h-6 w-px bg-md-outline-variant/40 hidden sm:block"></div>
+
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
