@@ -51,3 +51,11 @@ Este documento reúne las entidades, conceptos técnicos y jerga funcional del s
 - **Alcance / Propósito**: Infraestructura de producción para alojar `www.hasselpunk.com`, actualizado mediante un pipeline automatizado de GitHub Actions.
 - **Lo que NO es**: No ejecuta backend dinámico, base de datos ni procesamiento del lado del servidor.
 
+
+
+---
+
+### Tokens Semánticos M3
+- **Definición**: Nombres abstractos de color y estilo definidos por la especificación de Material Design 3 (`primary`, `surface`, `on-surface`, `container`, `outline`) que representan la función y contraste de un elemento en lugar de un valor cromático fijo.
+- **Alcance / Propósito**: Facilitar la conmutación fluida entre tema claro y tema oscuro mediante variables CSS y utilidades Tailwind, preservando el contraste WCAG AA.
+- **Lo que NO es**: No son clases de colores hardcodeados (como `slate-900` o `emerald-400`), sino roles contextuales dinámicos.

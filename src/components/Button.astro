@@ -1,0 +1,52 @@
+---
+// Button.astro - Botón accesible con variantes Material Design 3
+interface Props {
+  as?: 'button' | 'a';
+  href?: string;
+  variant?: 'filled' | 'outlined' | 'tonal' | 'text';
+  size?: 'sm' | 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  as: Tag = 'button',
+  href,
+  variant = 'filled',
+  size = 'md',
+  type = 'button',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const Component = href ? 'a' : Tag;
+
+const variantStyles = {
+  filled: 'bg-md-primary text-md-on-primary hover:bg-md-primary/90 shadow-m3-1 hover:shadow-m3-2 border border-transparent',
+  outlined: 'bg-transparent text-md-primary border border-md-outline hover:bg-md-primary/10 hover:border-md-primary',
+  tonal: 'bg-md-secondary-container text-md-on-secondary-container hover:bg-md-secondary-container/80 border border-transparent',
+  text: 'bg-transparent text-md-primary hover:bg-md-primary/10 border border-transparent',
+};
+
+const sizeStyles = {
+  sm: 'text-xs px-4 py-2 rounded-full font-medium min-h-[36px]',
+  md: 'text-sm px-6 py-2.5 rounded-full font-medium min-h-[40px]',
+  lg: 'text-base px-7 py-3 rounded-full font-medium min-h-[48px]',
+};
+---
+
+<Component
+  href={href}
+  type={Component === 'button' ? type : undefined}
+  class:list={[
+    'm3-button inline-flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 select-none text-center focus:outline-none focus:ring-2 focus:ring-md-primary focus:ring-offset-2 focus:ring-offset-md-surface disabled:opacity-50 disabled:pointer-events-none',
+    variantStyles[variant],
+    sizeStyles[size],
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Component>
+
