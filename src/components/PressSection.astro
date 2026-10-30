@@ -27,7 +27,7 @@ import { pressMentions } from '../data/press';
     {pressMentions.map((item) => (
       <Card
         variant={item.category === 'autor' ? 'filled' : 'outlined'}
-        class="flex flex-col justify-between h-full space-y-4 hover:border-md-primary/50 transition-all group"
+        class="flex flex-col justify-between h-full space-y-4 hover:border-md-primary/50 group"
       >
         <div class="space-y-3">
           <div class="flex items-center justify-between gap-2">
@@ -76,3 +76,4 @@ import { pressMentions } from '../data/press';
     ))}
   </div>
 </section>
+

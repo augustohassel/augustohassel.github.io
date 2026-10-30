@@ -51,3 +51,4 @@ export const pressMentions: PressMention[] = [
     badge: "Fintech & M&A"
   }
 ];
+

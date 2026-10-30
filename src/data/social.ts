@@ -25,3 +25,4 @@ export const socialLinks: SocialLink[] = [
     icon: 'email',
   },
 ];
+
