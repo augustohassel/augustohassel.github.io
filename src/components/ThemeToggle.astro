@@ -63,13 +63,8 @@
       const isDark = document.documentElement.classList.contains('dark');
       const targetDark = !isDark;
 
-      if (targetDark) {
-        document.documentElement.classList.add('dark');
-        document.documentElement.classList.remove('light');
-      } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.classList.add('light');
-      }
+      document.documentElement.classList.toggle('dark', targetDark);
+      document.documentElement.classList.toggle('light', !targetDark);
 
       try {
         localStorage.setItem('theme', targetDark ? 'dark' : 'light');
@@ -90,13 +85,8 @@
         } catch (_) {}
 
         if (!hasStored) {
-          if (e.matches) {
-            document.documentElement.classList.add('dark');
-            document.documentElement.classList.remove('light');
-          } else {
-            document.documentElement.classList.remove('dark');
-            document.documentElement.classList.add('light');
-          }
+          document.documentElement.classList.toggle('dark', e.matches);
+          document.documentElement.classList.toggle('light', !e.matches);
           updateAriaLabel(e.matches);
         }
       });
