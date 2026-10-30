@@ -1,25 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Mandrill on HasselPunk</title>
-    <link>/tags/mandrill/</link>
-    <description>Recent content in Mandrill on HasselPunk</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es-AR</language>
-    <lastBuildDate>Sat, 04 Jan 2020 22:44:05 -0300</lastBuildDate>
-    
-	<atom:link href="/tags/mandrill/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>HasselPunk BO Companion</title>
-      <link>/projects/hasselpunk-bo-companion/</link>
-      <pubDate>Sat, 04 Jan 2020 22:44:05 -0300</pubDate>
-      
-      <guid>/projects/hasselpunk-bo-companion/</guid>
-      <description>HasselPunk BO Companion es una suite de soluciones dedicada a agilizar procesos dentro de una Sociedad de Bolsa.La instalación básica consta de los siguientes tableros:
-Home. El punto de partida: ir!Administrador. Gestión y administración de usuarios.Recursos Humanos. Gestión y administración de personas.Comercial. Acceso a información y análisis de clientes.Tablero AdministradorDentro de este tablero se puede:Crear usuariosRecuperar contraseñasGestionar permisos: cada tablero tiene 3 niveles de permisos distintos para poder habilitar la información únicamente a los usuarios que la necesitenVer últimas conexionesVincular managers con usuarios: esto es muy útil cuando se quiere brindar permisos al tablero de Comercial a los productores y/o managers de cuentas, para que vean únicamente sus cuentas vinculadasTablero Recursos HumanosAquí se podrá:Dar de alta personas.</description>
-    </item>
-    
-  </channel>
-</rss>

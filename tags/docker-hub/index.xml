@@ -1,36 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Docker-Hub on HasselPunk</title>
-    <link>/tags/docker-hub/</link>
-    <description>Recent content in Docker-Hub on HasselPunk</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es-AR</language>
-    <lastBuildDate>Mon, 15 Jun 2020 18:45:14 -0300</lastBuildDate>
-    
-	<atom:link href="/tags/docker-hub/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Serverless Shiny en Google Cloud</title>
-      <link>/blog/2020-06-13serverlessshinyengooglecloud/</link>
-      <pubDate>Mon, 15 Jun 2020 18:45:14 -0300</pubDate>
-      
-      <guid>/blog/2020-06-13serverlessshinyengooglecloud/</guid>
-      <description>TL;DR Es posible usar Cloud Run para deployar una aplicación en Shiny, aunque si necesitas websocket tendrás que dar una vuelta más y usar Cloud Run for Anthos para subir la aplicación a un cluster de Kubernetes. Esta es mi aplicación: https://demo.hasselpunk.com/rRofex y aquí está el código en GitHub
-La idea con la que arranqué a esribir este post fue ir mencionando las cosas que fui haciendo para lograr correr una aplicación de Shiny en Google Cloud usando Cloud Run en vez de levantar una máquina virtual que contenga al servidor.</description>
-    </item>
-    
-    <item>
-      <title>Mi Primer Repositorio en Docker</title>
-      <link>/blog/miprimerrepositorioendocker/</link>
-      <pubDate>Tue, 14 Apr 2020 23:45:14 -0300</pubDate>
-      
-      <guid>/blog/miprimerrepositorioendocker/</guid>
-      <description>TL;DR La imagen que he creado pueden encontrarla aquí: https://hub.docker.com/r/augustohassel/r_ubuntu
-Este posteo no lo tenía planificado y surge de querer bajar a papel varias lecciones aprendidas luego de no poder resolver un problema y tener que realizar un workaround en torno al mismo.
-El desafíoEl objetivo que tenía por delante era desarrollar una API que generase un informe para ciertos clientes según ciertos parámetros. En sí, no era algo complicado, además ya hemos visto cómo generar una API con Plumber, armar informes con RMarkdown y encapsusarlo todo con Docker.</description>
-    </item>
-    
-  </channel>
-</rss>
