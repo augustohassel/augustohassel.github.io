@@ -1,0 +1,35 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { size = 'md', class: className = '' } = Astro.props;
+
+const sizeMap = {
+  sm: 'w-7 h-7',
+  md: 'w-9 h-9',
+  lg: 'w-12 h-12',
+};
+---
+
+<div
+  class={`inline-flex items-center justify-center rounded-xl bg-md-primary text-md-on-primary font-black shadow-sm overflow-hidden select-none transition-transform hover:scale-105 ${sizeMap[size]} ${className}`}
+  title="HasselPunk · Directo, honesto y sin rodeos"
+  aria-hidden="true"
+>
+  <!-- Monograma geométrico H con travesaño angular dinámico (actitud HasselPunk) -->
+  <svg
+    viewBox="0 0 32 32"
+    fill="currentColor"
+    class="w-3/4 h-3/4"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <!-- Columna izquierda -->
+    <rect x="5" y="5" width="5" height="22" rx="1.5" />
+    <!-- Columna derecha -->
+    <rect x="22" y="5" width="5" height="22" rx="1.5" />
+    <!-- Barra transversal angular con corte dinámico -->
+    <polygon points="10,13 22,15 22,19 10,17" />
+  </svg>
+</div>

@@ -1,17 +1,7 @@
 ---
-interface SocialLink {
-  label: string;
-  href: string;
-  icon: string;
-}
+import { socialLinks } from '../data/social';
 
 const currentYear = new Date().getFullYear();
-
-const socialLinks: SocialLink[] = [
-  { label: 'GitHub', href: 'https://github.com/augustohassel', icon: 'github' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/augustohassel', icon: 'linkedin' },
-  { label: 'YouTube', href: 'https://youtube.com/@tecnoemprendedores', icon: 'youtube' },
-];
 ---
 
 <footer class="w-full mt-auto border-t border-md-outline-variant/30 bg-md-surface-container-low transition-colors">
@@ -29,13 +19,13 @@ const socialLinks: SocialLink[] = [
       <div class="flex items-center gap-4">
         {socialLinks.map((link) => (
           <a
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={link.url}
+            target={link.url.startsWith('mailto:') ? undefined : '_blank'}
+            rel={link.url.startsWith('mailto:') ? undefined : 'me noopener noreferrer'}
             class="text-sm font-medium text-md-on-surface-variant hover:text-md-primary transition-colors focus:outline-none focus:ring-2 focus:ring-md-primary rounded px-2 py-1"
-            aria-label={`Perfil de Augusto Hassel en ${link.label} (abre en nueva pestaña)`}
+            aria-label={link.label}
           >
-            {link.label}
+            {link.name}
           </a>
         ))}
       </div>

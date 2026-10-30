@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import Logo from './Logo.astro';
 
 interface NavItem {
   label: string;
@@ -9,6 +10,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: 'Inicio', href: '/' },
   { label: 'Sobre mí', href: '/#sobre-mi' },
+  { label: 'Prensa', href: '/#prensa' },
   { label: 'Proyectos', href: '/#proyectos' },
   { label: 'Blog', href: '/#blog' },
 ];
@@ -16,16 +18,14 @@ const navItems: NavItem[] = [
 
 <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-md-surface/85 border-b border-md-outline-variant/30 transition-colors">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-    <!-- Brand / Logotipo -->
+    <!-- Brand / Logotipo con Isotipo HasselPunk -->
     <a
       href="/"
-      class="flex items-center gap-3 font-semibold text-lg text-md-on-surface hover:text-md-primary transition-colors focus:outline-none focus:ring-2 focus:ring-md-primary rounded-lg px-2 py-1"
+      class="flex items-center gap-3 font-semibold text-lg text-md-on-surface hover:text-md-primary transition-colors focus:outline-none focus:ring-2 focus:ring-md-primary rounded-lg px-1 py-1"
       aria-label="HasselPunk - Inicio"
     >
-      <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-md-primary-container text-md-on-primary-container font-bold text-sm">
-        H
-      </span>
-      <span>Augusto Hassel</span>
+      <Logo size="md" />
+      <span class="tracking-tight">Augusto Hassel</span>
     </a>
 
     <!-- Navegación y Conmutador de Tema -->
