@@ -71,6 +71,7 @@ import { socialLinks } from '../data/social';
             target={link.url.startsWith('mailto:') ? undefined : '_blank'}
             rel={link.url.startsWith('mailto:') ? undefined : 'me noopener noreferrer'}
             aria-label={link.label}
+            title={link.icon === 'email' ? 'Enviar correo a augusto@hasselpunk.com' : undefined}
           >
             {link.icon === 'github' && (
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
