@@ -1,0 +1,95 @@
+---
+// ThemeToggle.astro - Conmutador accesible de tema Material Design 3
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  class="relative inline-flex items-center justify-center w-10 h-10 rounded-full text-md-on-surface-variant hover:text-md-on-surface hover:bg-md-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-md-primary transition-colors"
+  aria-label="Cambiar a tema oscuro"
+  title="Cambiar tema (Claro / Oscuro)"
+>
+  <!-- Ícono Sol (Modo Claro activo -> acción cambiar a oscuro) -->
+  <svg
+    id="theme-icon-light"
+    class="w-5 h-5 hidden dark:block text-amber-300 transition-transform duration-300"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+    />
+  </svg>
+
+  <!-- Ícono Luna (Modo Oscuro inactivo -> acción cambiar a oscuro) -->
+  <svg
+    id="theme-icon-dark"
+    class="w-5 h-5 block dark:hidden text-md-on-surface-variant transition-transform duration-300"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    />
+  </svg>
+</button>
+
+<script is:inline>
+  (function () {
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (!toggleBtn) return;
+
+    function updateAriaLabel(isDark) {
+      toggleBtn.setAttribute(
+        'aria-label',
+        isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'
+      );
+    }
+
+    const isCurrentDark = document.documentElement.classList.contains('dark');
+    updateAriaLabel(isCurrentDark);
+
+    toggleBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      const targetDark = !isDark;
+
+      document.documentElement.classList.toggle('dark', targetDark);
+      document.documentElement.classList.toggle('light', !targetDark);
+
+      try {
+        localStorage.setItem('theme', targetDark ? 'dark' : 'light');
+      } catch (_) {
+        // Storage no disponible o bloqueado por política del navegador
+      }
+
+      updateAriaLabel(targetDark);
+    });
+
+    // Escuchar cambios de preferencia del sistema si el usuario no fijó preferencia manual
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', (e) => {
+        let hasStored = false;
+        try {
+          hasStored = !!localStorage.getItem('theme');
+        } catch (_) {}
+
+        if (!hasStored) {
+          document.documentElement.classList.toggle('dark', e.matches);
+          document.documentElement.classList.toggle('light', !e.matches);
+          updateAriaLabel(e.matches);
+        }
+      });
+  })();
+</script>
+

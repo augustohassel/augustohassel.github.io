@@ -1,0 +1,41 @@
+---
+// Card.astro - Contenedor con elevación y bordes Material Design 3
+interface Props {
+  as?: 'div' | 'article' | 'section' | 'a';
+  href?: string;
+  variant?: 'elevated' | 'filled' | 'outlined';
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  as: Tag = 'div',
+  href,
+  variant = 'outlined',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+// Estilos según especificación M3
+const variantStyles = {
+  elevated: 'bg-md-surface-container-low shadow-m3-1 hover:shadow-m3-2 border border-transparent',
+  filled: 'bg-md-surface-container hover:bg-md-surface-container-high border border-transparent',
+  outlined: 'bg-md-surface border border-md-outline-variant hover:border-md-outline hover:bg-md-surface-container-lowest/50',
+};
+
+const isInteractive = Boolean(href) || Tag === 'a';
+---
+
+<Tag
+  href={href}
+  class:list={[
+    'm3-card relative rounded-2xl p-6 transition-all duration-200 block text-md-on-surface',
+    variantStyles[variant],
+    isInteractive && 'cursor-pointer hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-md-primary',
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>
+
