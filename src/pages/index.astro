@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Card from '../components/Card.astro';
 import Badge from '../components/Badge.astro';
 import Button from '../components/Button.astro';
 import AboutMe from '../components/AboutMe.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
 import ContactSection from '../components/ContactSection.astro';
 
 const title = "Augusto Hassel | HasselPunk";
@@ -58,52 +58,8 @@ const description = "Sitio personal y portfolio profesional de Augusto Hassel. D
   <!-- Sección Sobre Mí (Bio, Foto optimizada, redes y nota de Parra) -->
   <AboutMe />
 
-  <!-- Pilares de la Plataforma -->
-  <section id="proyectos" class="scroll-mt-20 pt-8 pb-16 space-y-8 border-t border-md-outline-variant/20">
-    <div class="space-y-2">
-      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-md-on-surface">
-        Pilares de la Plataforma
-      </h2>
-      <p class="text-md-on-surface-variant text-sm sm:text-base">
-        Componentes modulares de Material Design 3 con contraste WCAG AA, paleta tonal y soporte nativo de modo claro/oscuro.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <Card variant="outlined" class="space-y-4">
-        <div class="flex items-center justify-between">
-          <Badge variant="primary">Material You</Badge>
-          <span class="text-xs text-md-on-surface-variant font-mono">01</span>
-        </div>
-        <h3 class="text-xl font-bold text-md-on-surface">Diseño y Accesibilidad</h3>
-        <p class="text-sm text-md-on-surface-variant leading-relaxed">
-          Paleta basada en roles semánticos (Superficies, Contenedores, Primario y Secundario) garantizando alto contraste y soporte de alto contraste del SO.
-        </p>
-      </Card>
-
-      <Card variant="filled" class="space-y-4">
-        <div class="flex items-center justify-between">
-          <Badge variant="secondary">Zero FOUC</Badge>
-          <span class="text-xs text-md-on-surface-variant font-mono">02</span>
-        </div>
-        <h3 class="text-xl font-bold text-md-on-surface">Modo Claro y Oscuro</h3>
-        <p class="text-sm text-md-on-surface-variant leading-relaxed">
-          Detección automática del sistema operativo mediante media queries, conmutador accesible y persistencia segura en almacenamiento local.
-        </p>
-      </Card>
-
-      <Card variant="elevated" class="space-y-4">
-        <div class="flex items-center justify-between">
-          <Badge variant="outline">Astro 5</Badge>
-          <span class="text-xs text-md-on-surface-variant font-mono">03</span>
-        </div>
-        <h3 class="text-xl font-bold text-md-on-surface">Rendimiento Extremo</h3>
-        <p class="text-sm text-md-on-surface-variant leading-relaxed">
-          Generación estática pura (SSG), fuentes auto-hospedadas sin dependencias externas de terceros y validación continua de enlaces internos.
-        </p>
-      </Card>
-    </div>
-  </section>
+  <!-- Sección Portfolio de Proyectos -->
+  <ProjectsSection />
 
   <!-- Sección de Contacto -->
   <ContactSection />
