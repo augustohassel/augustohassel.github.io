@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Badge from '../../components/Badge.astro';
+import Card from '../../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+
+// Orden cronológico descendente (más recientes primero)
+const sortedPosts = posts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const categories = ['Todos', ...new Set(posts.map((p) => p.data.category))];
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat('es-AR', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  }).format(date);
+}
+---
+
+<BaseLayout
+  title="Blog y Publicaciones | HasselPunk"
+  description="Artículos sobre arquitectura de software, lecciones de startups y archivo técnico sobre R, Docker y Google Cloud por Augusto Hassel."
+>
+  <div class="space-y-10 sm:space-y-12 py-4 sm:py-8">
+    <!-- Cabecera de la sección -->
+    <header class="space-y-4 max-w-3xl">
+      <div class="space-y-2">
+        <Badge variant="primary" size="md">
+          Publicaciones
+        </Badge>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-md-on-surface">
+          Blog & Artículos
+        </h1>
+      </div>
+      <p class="text-base sm:text-lg text-md-on-surface-variant leading-relaxed">
+        Reflexiones sobre desarrollo de producto, arquitectura y el archivo histórico de guías técnicas sobre R, Docker y Cloud Run.
+      </p>
+
+      <!-- Selector de categoría accesible (Filtro) -->
+      <div class="pt-4 flex flex-wrap items-center gap-2" role="tablist" aria-label="Filtrar por categoría">
+        {categories.map((cat, index) => (
+          <button
+            type="button"
+            role="tab"
+            aria-selected={index === 0 ? 'true' : 'false'}
+            data-category={cat}
+            class:list={[
+              'filter-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 border',
+              index === 0
+                ? 'active bg-md-primary text-md-on-primary border-transparent shadow-sm'
+                : 'bg-md-surface-container-low text-md-on-surface-variant border-md-outline-variant/30 hover:bg-md-surface-container hover:text-md-on-surface'
+            ]}
+          >
+            {cat} {cat === 'Todos' ? `(${posts.length})` : `(${posts.filter((p) => p.data.category === cat).length})`}
+          </button>
+        ))}
+      </div>
+    </header>
+
+    <!-- Grilla de Artículos -->
+    <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+      {sortedPosts.map((post) => (
+        <article
+          data-category={post.data.category}
+          class="post-card flex flex-col h-full"
+        >
+          <Card
+            as="a"
+            href={`/blog/${post.id}/`}
+            variant="outlined"
+            class="flex-1 flex flex-col justify-between p-6 sm:p-7 rounded-3xl border-md-outline-variant/40 hover:border-md-primary/60 bg-md-surface hover:shadow-m3-2 transition-all duration-300 group"
+          >
+            <div class="space-y-4">
+              <!-- Metadatos superiores -->
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <Badge
+                  variant={post.data.category === 'Archivo / R' ? 'secondary' : 'primary'}
+                  size="sm"
+                >
+                  {post.data.category}
+                </Badge>
+                <time datetime={post.data.date.toISOString()} class="text-md-on-surface-variant font-medium">
+                  {formatDate(post.data.date)}
+                </time>
+              </div>
+
+              <!-- Título -->
+              <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-md-on-surface group-hover:text-md-primary transition-colors leading-snug">
+                {post.data.title}
+              </h2>
+
+              <!-- Descripción -->
+              <p class="text-sm text-md-on-surface-variant leading-relaxed line-clamp-3">
+                {post.data.description}
+              </p>
+            </div>
+
+            <!-- Footer de la tarjeta: Tags y enlace de lectura -->
+            <div class="pt-6 mt-4 border-t border-md-outline-variant/20 flex items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-1.5 overflow-hidden">
+                {post.data.tags.slice(0, 3).map((tag) => (
+                  <span class="text-[11px] px-2 py-0.5 rounded-md bg-md-surface-container text-md-on-surface-variant font-medium">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+
+              <span class="inline-flex items-center gap-1 text-xs font-semibold text-md-primary group-hover:translate-x-1 transition-transform flex-shrink-0">
+                <span>Leer</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </span>
+            </div>
+          </Card>
+        </article>
+      ))}
+    </div>
+
+    <!-- Estado vacío si el filtro no arroja resultados -->
+    <div id="empty-state" class="hidden text-center py-16 space-y-3 bg-md-surface-container-low rounded-3xl border border-md-outline-variant/30 p-8">
+      <p class="text-lg font-semibold text-md-on-surface">No se encontraron artículos en esta categoría.</p>
+      <p class="text-sm text-md-on-surface-variant">Probá seleccionando "Todos" para ver todas las publicaciones.</p>
+    </div>
+  </div>
+
+  <!-- Script interactivo de filtrado de categorías sin librerías externas -->
+  <script is:inline>
+    (function () {
+      const buttons = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.post-card');
+      const emptyState = document.getElementById('empty-state');
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const selectedCategory = btn.getAttribute('data-category');
+
+          // Actualizar estado de botones
+          buttons.forEach((b) => {
+            const isTarget = b === btn;
+            b.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+            if (isTarget) {
+              b.classList.add('active', 'bg-md-primary', 'text-md-on-primary', 'border-transparent', 'shadow-sm');
+              b.classList.remove('bg-md-surface-container-low', 'text-md-on-surface-variant', 'border-md-outline-variant/30');
+            } else {
+              b.classList.remove('active', 'bg-md-primary', 'text-md-on-primary', 'border-transparent', 'shadow-sm');
+              b.classList.add('bg-md-surface-container-low', 'text-md-on-surface-variant', 'border-md-outline-variant/30');
+            }
+          });
+
+          // Filtrar tarjetas
+          let visibleCount = 0;
+          cards.forEach((card) => {
+            const cardCategory = card.getAttribute('data-category');
+            if (selectedCategory === 'Todos' || cardCategory === selectedCategory) {
+              card.classList.remove('hidden');
+              visibleCount++;
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+
+          // Manejar estado vacío
+          if (emptyState) {
+            if (visibleCount === 0) {
+              emptyState.classList.remove('hidden');
+            } else {
+              emptyState.classList.add('hidden');
+            }
+          }
+        });
+      });
+    })();
+  </script>
+</BaseLayout>
+

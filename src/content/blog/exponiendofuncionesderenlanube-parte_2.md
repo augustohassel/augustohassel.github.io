@@ -1,0 +1,205 @@
+---
+title: "Exponiendo Funciones de R en la Nube: Parte 2"
+author: "Augusto Hassel"
+date: 2020-03-20T23:45:14-03:00
+featured: true
+image: "/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_logo.png"
+description: "Cómo exponer funciones de R en la nube utilizando PlumbeR, Docker y Google Cloud. Automatizando informes en HTML y PDF."
+tags: ["API", "PlumbeR", "Docker", "Google Cloud", "Virtual Box", "Ubuntu", "Linux"]
+category: "Archivo / R"
+---
+
+> **TL;DR**: La configuración de Docker necesaria para subir la API que hicimos en el posteo anterior la pueden encontrar aquí: [GitHub Demo-APIs](https://github.com/augustohassel/Demo-APIs) 👽
+
+En este segundo posteo de la serie, vamos a intentar explicar en pocas palabras (y viniendo de un 'no experto') **qué es Docker**, para luego hacer un paso a paso que nos ayude a escribir nuestro primer `Dockerfile` que sirva para correr la API que hemos creado en el posteo anterior.
+
+### La motivación
+
+El construir y mantener una máquina virtual desde cero en la nube con el solo motivo de que sirva para alojar nuestra API es una tarea engorrosa y costosa... Es por esto que nos vemos en la necesidad de buscar otras alternativas para lograr tener mayor control sobre los ambientes de desarrollo, intentando reducir al mínimo la complejidad y los componentes que son necesarios para que funcione nuestra aplicación. Aquí es donde entra [Docker](https://hub.docker.com/) en el juego!
+
+***
+
+### Supuestos y definiciones
+
+Mantenemos los mismos supuestos que en el posteo anterior y agregamos uno:
+
+1. Quien desee seguir de punta a punta esta guía, deberá tener una cuenta en [Google Cloud](https://cloud.google.com/). Ya tendremos tiempo de ver los costos en otros posteos. 
+2. Doy por sentado que quien lee esta guía entiende qué es una API REST y ha tenido alguna experiencia mínima con este protocolo.
+3. No soy un DevOps, así que cualquier oportunidad de mejora que vean, pueden agregarla en los comentarios! Este punto es especialmente relevante para este posteo, ya que Docker en sí tiene sus particularidades y yo no soy un experto!
+4. **Vamos a realizar todas las pruebas desde una VM que tiene Ubuntu instalado.**
+
+### Manos a la obra!
+
+**¿Qué es Docker?** Docker es un proyecto Open Source con el cual podemos empaquetar aplicaciones en **contenedores**, los cuales contienen todo lo necesario para que dichas aplicaciones se puedan ejecutar. Entonces... *¿qué es un contenedor?* Bueno, un contenedor es una unidad estandarizada de software que empaqueta todo el código y todas sus dependencias, de manera que una aplicación pueda correr rápidamente independientemente del ambiente en el que se encuentre. Es así que los contenedores aíslan las aplicaciones del ambiente en el que se encuentran, de manera tal que siga funcionando a pesar de que corran en instancias de desarrollo distintas. 
+
+Hoy los contenedores de Docker se pueden usar en todos lados: Linux, Windows, Data Centers, la Nube, Serverless (este sería nuestro caso!).
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_2.png" alt="Arquitectura Docker" class="rounded-xl shadow-md max-w-full sm:max-w-md h-auto" />
+</p>
+
+#### Instalando Docker
+
+Primero vamos a *'intentar'* instalar **Docker Desktop** desde el sitio oficial: [Docker Hub](https://hub.docker.com/search?q=&type=edition&offering=community&sort=updated_at&order=desc). 
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_3.png" alt="Instalación Docker Desktop" class="rounded-xl shadow-md max-w-full sm:max-w-lg h-auto" />
+</p>
+
+En mi caso **no cumplo con los requisitos mínimos** 😡, ya que tengo Windows 10 Home, así que tendré que dar una vuelta de tuerca a esta situación de la siguiente manera:
+    
+1. Voy a descargar e instalar [Virtual Box](https://www.virtualbox.org/)
+2. Luego voy a descargarme un instalador de [Ubuntu](https://ubuntu.com/download/desktop)
+3. **Voy a crear una máquina virtual dentro de mi máquina física usando Virtual Box que contenga Ubuntu** 🚀
+
+Quienes tengan Linux o Windows 10 Pro no tendrán necesidad de seguir estos pasos... Si quieren que haga un tutorial sobre cómo hacerlo, tranquilamente lo puedo pensar para otro posteo! Por lo pronto, **ahora puedo usar Ubuntu en mi máquina con Windows!** 🔥
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_4.png" alt="Ubuntu corriendo en VirtualBox" class="rounded-xl shadow-md max-w-full sm:max-w-lg h-auto" />
+</p>
+
+Vamos a continuar directamente desde la máquina virtual con Ubuntu 😉
+
+**La instalación del engine de Docker se reduce a seguir los pasos de este tutorial**: [Docker CE Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+
+Una vez esté instalado, podremos correr el siguiente código para determinar si ha funcionado correctamente la instalación: `sudo docker run hello-world`. Si todo ha salido bien, entonces verán la siguiente consola:
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_5.png" alt="Hello World en Docker" class="rounded-xl shadow-md max-w-full sm:max-w-lg h-auto" />
+</p>
+
+#### El poder de Docker!
+
+Uno de los grandes beneficios de Docker es la gran comunidad que hay detrás creando **imágenes** (simplificando, *las imágenes son como plantillas que capturan el estado de un contenedor y sirven para crear los mismos*) que nos permitirán levantar rápidamente contenedores con diversas aplicaciones/configuraciones preinstaladas. Algunos links importantes a tener en cuenta:
+
+- Listado de imágenes públicas dentro de Docker Hub: [Docker Hub Search](https://hub.docker.com/search?q=&type=image)
+- Imagen oficial de R en Docker Hub: [r-base](https://hub.docker.com/_/r-base)
+- The Rocker Project: [rocker-project.org](https://www.rocker-project.org/)
+- Documentación sobre comandos de Docker: [Docker Docs](https://docs.docker.com/reference/)
+
+> Si se ponen a ver las imágenes del proyecto Rocker, verán que hay imágenes que ya vienen preparadas para correr Shiny o RStudio Server directamente dockerizadas!
+
+Vamos a probar descargando una imagen oficial que contiene R. Para hacerlo, tenemos que usar el comando `docker pull` con la imagen en cuestión: `sudo docker pull r-base`. Esta es la pantalla que verán si todo va bien:
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_6.png" alt="Descarga de imagen r-base" class="rounded-xl shadow-md max-w-full sm:max-w-lg h-auto" />
+</p>
+
+Una vez que tengamos las imágenes descargadas, podemos listarlas directamente con el comando `sudo docker images`.
+
+Ahora vamos a una parte más divertida! **Podemos crear un contenedor con la imagen que acabamos de descargar y lograremos correr R aún si no tenemos R instalado en nuestra máquina**! Para hacerlo usaremos el comando `sudo docker run -ti --rm r-base`. En el comando estamos especificando con `--rm` que el contenedor se tendrá que eliminar una vez que salgamos de la consola y además estamos diciendo con `-i` que queremos que nos quede la consola interactiva dentro del contenedor.
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_7.png" alt="R interactivo dentro de Docker" class="rounded-xl shadow-md max-w-full sm:max-w-lg h-auto" />
+</p>
+
+Para ver los contenedores creados que estén activos debemos usar el comando `sudo docker ps`. 
+
+#### Creando nuestra primer imagen: Dockerfile
+
+Docker construye imágenes leyendo un archivo que contiene un set de instrucciones, con comandos en un orden determinado. Este archivo se llama **Dockerfile**. Creemos uno sencillo con el comando `touch Dockerfile` y agreguemos el siguiente contenido con cualquier editor de textos:
+
+```dockerfile
+FROM r-base:latest
+COPY / / 
+RUN R -e "1+1"
+CMD ["Rscript", "simple.R"]
+```
+
+> Para seguir las buenas prácticas en la construcción de un archivo Dockerfile les recomiendo leer las [mejores prácticas oficiales de Docker](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/).
+
+Básicamente lo que estamos diciendo en este archivo es que:
+
+- **FROM** va a crear una capa de base con la imagen **r-base:latest** obtenida desde el repositorio de imágenes.
+- **COPY** va a agregar los archivos desde la ruta donde estamos al directorio del cliente de Docker.
+- **RUN** va a ejecutar, al momento de la creación del contenedor, una acción determinada. La que hemos elegido no tiene mucho sentido, pero sirve para hacernos una idea! Es más útil para instalar librerías, actualizar paquetes, etc.
+- **CMD** contiene el listado de comandos y sus argumentos que se correrán dentro del contenedor. En este caso vamos a correr un script que adentro tiene un único comando: `message("Hola")`.
+
+Obviamente hay más comandos a disposición para usar dentro de un Dockerfile, pero estos nos servirán en un principio. 
+
+**Para construir la imagen** vamos a usar el comando `sudo docker build . -t 'simple'` parándonos en el directorio en el cual está guardado el Dockerfile:
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_8.png" alt="Build de imagen simple" class="rounded-xl shadow-md max-w-full sm:max-w-lg h-auto" />
+</p>
+
+Finalmente podemos ejecutar la imagen que acabamos de crear con el comando `sudo docker run -ti --rm simple` para obtener un gran saludo! 🎊
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_9.png" alt="Ejecución de imagen simple" class="rounded-xl shadow-md max-w-full sm:max-w-lg h-auto" />
+</p>
+
+#### Uniendo todos los puntos
+
+Si llegaste hasta acá te estarás preguntando: **¿cómo hacemos para que funcione la API del posteo anterior?**
+
+Primero hagamos un clone del repositorio en GitHub que contiene la API: `git clone https://github.com/augustohassel/Demo-APIs.git`. 
+
+Luego vamos a ubicarnos dentro de la carpeta que contiene el archivo Dockerfile y vamos a crear el contenedor con el comando que vimos antes `sudo docker build . -t 'api'`. 
+
+Veremos que en la pantalla empiezan a suceder más cosas que en el ejemplo anterior:
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_10.png" alt="Build de API Dockerfile" class="rounded-xl shadow-md max-w-full sm:max-w-lg h-auto" />
+</p>
+
+Esto tardará unos minutos mientras construye la imagen con los pasos que configuramos en el **Dockerfile**. Mientras esto sucede veamos qué se está haciendo detrás:
+
+```dockerfile
+FROM rocker/verse:latest
+
+RUN apt-get update -qq && apt-get install -y \
+      libssl-dev \
+      libcurl4-gnutls-dev \
+      pandoc \
+      pandoc-citeproc
+
+RUN R -e "install.packages('plumber')"
+RUN R -e "install.packages('rmarkdown')"
+RUN R -e "install.packages('quantmod')"
+RUN R -e "install.packages('dygraphs')"
+RUN R -e "install.packages('xts')"
+
+COPY / /
+
+ENTRYPOINT ["Rscript", "main.R"]
+```
+
+Lo que está sucediendo es lo siguiente:
+
+- Con **FROM** estamos creando una capa con una imagen obtenida desde **rocker/verse**. Esta imagen es distinta a la del ejemplo anterior porque contiene librerías ya preparadas para trabajar con los archivos Markdown mediante los cuales se generan los informes. 
+- El primer **RUN** actualiza ciertos paquetes en Linux para hacer compatibles ciertas librerías de R, por ejemplo, para poder publicar los PDFs.
+- Los **RUN** subsiguientes instalan librerías de R.
+- Por último copiamos los archivos con **COPY**.
+- Finalmente indicamos el comando principal que se utilizará en la imagen a través de **ENTRYPOINT**.
+
+El archivo **main.R** contiene el setup inicial de plumber, el llamado de la librería, la lectura del archivo **plumber.R** y la configuración del puerto:
+
+```r
+library(plumber)
+r <- plumb("plumber.R")
+r$run(port = as.numeric(Sys.getenv('PORT')), host = "0.0.0.0")
+```
+
+Finalmente, para ejecutar la imagen y crear el contenedor vamos a usar el comando `sudo docker run -p 80:80 api`. Este comando agrega el parámetro `-p` para publicar el contenedor en el puerto en cuestión.
+
+> En caso de que no te haya funcionado, probablemente tengas que agregar una línea adicional en el Dockerfile antes de ENTRYPOINT: `ENV PORT=80`. Con esto te asegurarás de que la variable PORT está expuesta al contenedor.
+
+Finalmente, **si queremos ver que está funcionando todo correctamente, no tenemos más que ir a nuestro navegador y colocar la ruta http://127.0.0.1.**
+
+<p align="center" class="my-6">
+  <img src="/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_11.png" alt="API corriendo en localhost" class="rounded-xl shadow-md max-w-full sm:max-w-lg h-auto" />
+</p>
+
+### Lo logramos!
+
+**Hemos encapsulado nuestra API mediante Docker!** Existen otros beneficios de usar Docker pero quedarán para otros posteos en el futuro! 🔥
+
+En el siguiente posteo veremos cómo llevar finalmente nuestra API a la nube usando integración continua con GitHub + Google Build + Google Run! ☁️ 🚀
+
+<div class="mt-8 pt-6 border-t border-md-outline-variant/30 flex justify-start">
+  <a href="https://www.buymeacoffee.com/augustohassel" target="_blank" rel="noopener noreferrer" class="inline-block transition-transform hover:scale-105">
+    <img src="https://cdn.buymeacoffee.com/buttons/arial-blue.png" alt="Buy Me A Coffee" height="38" class="h-10 w-auto" />
+  </a>
+</div>
+

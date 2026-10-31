@@ -1,0 +1,126 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Badge from '../components/Badge.astro';
+import Button from '../components/Button.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  author?: string;
+  category?: string;
+  tags?: string[];
+  image?: string;
+}
+
+const {
+  title,
+  description,
+  date,
+  author = 'Augusto Hassel',
+  category = 'Archivo / R',
+  tags = [],
+  image,
+} = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat('es-AR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+}).format(date);
+---
+
+<BaseLayout title={`${title} | HasselPunk Blog`} description={description} image={image}>
+  <div class="max-w-3xl mx-auto py-4 sm:py-8">
+    <!-- Migas de pan accesibles -->
+    <nav aria-label="Migas de pan" class="mb-6 sm:mb-8 text-sm text-md-on-surface-variant flex items-center gap-2 flex-wrap">
+      <a href="/" class="hover:text-md-primary transition-colors flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span>Inicio</span>
+      </a>
+      <span aria-hidden="true" class="text-md-outline-variant">/</span>
+      <a href="/blog" class="hover:text-md-primary transition-colors">
+        Blog
+      </a>
+      <span aria-hidden="true" class="text-md-outline-variant">/</span>
+      <span aria-current="page" class="text-md-on-surface font-medium truncate max-w-[200px] sm:max-w-xs">
+        {title}
+      </span>
+    </nav>
+
+    <!-- Cabecera del artículo -->
+    <header class="space-y-4 pb-8 border-b border-md-outline-variant/30">
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <Badge variant={category === 'Archivo / R' ? 'secondary' : 'primary'} size="md">
+          {category}
+        </Badge>
+        <time datetime={date.toISOString()} class="text-xs sm:text-sm text-md-on-surface-variant">
+          {formattedDate}
+        </time>
+        <span aria-hidden="true" class="text-md-outline-variant">•</span>
+        <span class="text-xs sm:text-sm text-md-on-surface-variant">
+          Por {author}
+        </span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-md-on-surface leading-tight">
+        {title}
+      </h1>
+
+      <p class="text-lg sm:text-xl text-md-on-surface-variant leading-relaxed font-normal">
+        {description}
+      </p>
+
+      {tags.length > 0 && (
+        <div class="flex flex-wrap items-center gap-2 pt-2">
+          {tags.map((tag) => (
+            <span class="text-xs px-2.5 py-1 rounded-md bg-md-surface-container text-md-on-surface-variant border border-md-outline-variant/30 font-medium">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- Banner informativo si es archivo histórico -->
+    {category === 'Archivo / R' && (
+      <aside class="my-6 p-4 rounded-2xl bg-md-surface-container-low border border-md-outline-variant/30 text-xs sm:text-sm text-md-on-surface-variant flex items-start gap-3">
+        <svg class="w-5 h-5 text-md-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p>
+          <strong class="font-semibold text-md-on-surface">Archivo Histórico (2020)</strong>: Este artículo forma parte de publicaciones técnicas anteriores. Se preserva con fines documentales, didácticos y retrocompatibilidad de enlaces.
+        </p>
+      </aside>
+    )}
+
+    <!-- Contenido Markdown / MDX -->
+    <article class="prose-m3 py-6">
+      <slot />
+    </article>
+
+    <!-- Pie del artículo con navegación de regreso -->
+    <footer class="mt-12 pt-8 border-t border-md-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <Button as="a" href="/blog" variant="tonal" class="w-full sm:w-auto">
+        <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+        <span>Volver a todas las publicaciones</span>
+      </Button>
+
+      <a
+        href="#main-content"
+        class="text-xs text-md-primary hover:underline flex items-center gap-1 font-medium"
+      >
+        <span>Volver arriba</span>
+        <svg class="w-3.5 h-3.5 -rotate-90" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </footer>
+  </div>
+</BaseLayout>
+
