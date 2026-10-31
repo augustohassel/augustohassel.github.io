@@ -1,0 +1,58 @@
+---
+import Badge from './Badge.astro';
+import ProjectCard from './ProjectCard.astro';
+import { projectCategories, projects } from '../data/projects';
+---
+
+<section id="proyectos" class="scroll-mt-20 py-12 sm:py-16 space-y-16 border-t border-md-outline-variant/20">
+  <!-- Encabezado Principal del Portfolio -->
+  <div class="space-y-4 max-w-3xl">
+    <div class="inline-flex items-center gap-2">
+      <Badge variant="primary" size="md">
+        Portfolio & Trayectoria
+      </Badge>
+    </div>
+
+    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-md-on-surface">
+      Proyectos y Desarrollos
+    </h2>
+
+    <p class="text-base sm:text-lg text-md-on-surface-variant leading-relaxed">
+      Vitrina de desarrollos activos, herramientas offline-first orientadas a la privacidad, iniciativas fundacionales en tecnología financiera y contribuciones de código abierto.
+    </p>
+  </div>
+
+  <!-- Categorías Secuenciales Verticales -->
+  <div class="space-y-16">
+    {projectCategories.map((category) => {
+      const categoryProjects = projects.filter((p) => p.category === category.id);
+
+      return (
+        <div class="space-y-6">
+          <!-- Encabezado de la Categoría -->
+          <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-md-outline-variant/30 pb-3">
+            <div>
+              <h3 class="text-2xl font-bold tracking-tight text-md-on-surface">
+                {category.title}
+              </h3>
+              <p class="text-sm text-md-on-surface-variant mt-1">
+                {category.description}
+              </p>
+            </div>
+            <span class="text-xs font-mono uppercase tracking-wider text-md-primary font-semibold shrink-0">
+              {category.badgeText}
+            </span>
+          </div>
+
+          <!-- Grilla de Tarjetas -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {categoryProjects.map((project) => (
+              <ProjectCard project={project} />
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
