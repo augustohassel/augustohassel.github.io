@@ -121,3 +121,19 @@ Este documento reúne las entidades, conceptos técnicos y jerga funcional del s
 - **Definición**: Serie audiovisual y canal de YouTube conducido por Augusto Hassel dedicado a la divulgación de tecnología, inteligencia artificial, finanzas cuantitativas y cultura emprendedora.
 - **Alcance / Propósito**: Registro audiovisual en el portfolio accesible directamente en `https://www.youtube.com/@AugustoHassel`.
 - **Lo que NO es**: No se incrusta mediante reproductores iframes pesados en el sitio para no penalizar el rendimiento ni la velocidad de carga inicial.
+
+---
+
+### Content Collections (Content Layer API)
+
+- **Definición**: Mecanismo nativo de Astro (versión 5+) para gestionar contenido estructurado en archivos Markdown, MDX o fuentes externas con validación estricta de esquemas Zod en tiempo de compilación.
+- **Alcance / Propósito**: Define y tipa la colección `blog` en `src/content.config.ts`, permitiendo consultar artículos de forma estática con seguridad de tipos para renderizado de posts y feeds.
+- **Lo que NO es**: No es un CMS desacoplado (headless CMS) en la nube ni requiere bases de datos externas.
+
+---
+
+### Archivo / R
+
+- **Definición**: Categoría de archivo histórico dentro del blog de HasselPunk dedicada a tutoriales y artículos técnicos publicados en 2020 sobre el lenguaje de programación R, empaquetado con Docker, despliegue serverless de aplicaciones Shiny en Google Cloud Run y gestión de datos con Pins.
+- **Alcance / Propósito**: Preservar y catalogar el material técnico fundacional del sitio, distinguiéndolo de reflexiones profesionales o ensayos contemporáneos.
+- **Lo que NO es**: No representa el stack de desarrollo principal actual del sitio ni código activo en producción.

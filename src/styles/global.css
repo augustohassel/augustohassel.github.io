@@ -122,4 +122,84 @@
       border: 1px solid CanvasText !important;
     }
   }
+
+  /* Estilos tipográficos M3 para renderizado de artículos Markdown */
+  .prose-m3 {
+    @apply text-md-on-surface-variant leading-relaxed text-base;
+  }
+
+  .prose-m3 h1 {
+    @apply text-3xl sm:text-4xl font-extrabold text-md-on-surface mt-10 mb-4 tracking-tight;
+  }
+
+  .prose-m3 h2 {
+    @apply text-2xl sm:text-3xl font-bold text-md-on-surface mt-10 mb-4 border-b pb-2.5 tracking-tight;
+    border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) 30%, transparent);
+  }
+
+  .prose-m3 h3 {
+    @apply text-xl sm:text-2xl font-bold text-md-on-surface mt-8 mb-3 tracking-tight;
+  }
+
+  .prose-m3 h4 {
+    @apply text-lg sm:text-xl font-semibold text-md-on-surface mt-6 mb-2;
+  }
+
+  .prose-m3 p {
+    @apply my-4 leading-relaxed;
+  }
+
+  .prose-m3 a {
+    @apply text-md-primary font-medium underline underline-offset-4 hover:opacity-80 transition-opacity;
+  }
+
+  .prose-m3 blockquote {
+    @apply border-l-4 border-md-primary bg-md-surface-container-low px-4 py-3 rounded-r-2xl my-6 text-md-on-surface italic shadow-sm;
+  }
+
+  .prose-m3 blockquote p {
+    @apply my-1;
+  }
+
+  .prose-m3 ul {
+    @apply list-disc list-outside pl-6 my-4 space-y-2 text-md-on-surface-variant;
+  }
+
+  .prose-m3 ol {
+    @apply list-decimal list-outside pl-6 my-4 space-y-2 text-md-on-surface-variant;
+  }
+
+  .prose-m3 li {
+    @apply leading-relaxed;
+  }
+
+  .prose-m3 table {
+    @apply w-full text-left border-collapse my-6 text-sm overflow-hidden rounded-xl border;
+    border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) 30%, transparent);
+  }
+
+  .prose-m3 th {
+    @apply border-b-2 py-3 px-4 font-semibold text-md-on-surface bg-md-surface-container;
+    border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) 40%, transparent);
+  }
+
+  .prose-m3 td {
+    @apply border-b py-2.5 px-4 text-md-on-surface-variant bg-md-surface-container-low;
+    border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) 20%, transparent);
+  }
+
+  .prose-m3 pre.astro-code {
+    @apply p-4 sm:p-5 rounded-2xl overflow-x-auto text-sm my-6 border font-mono shadow-sm;
+    border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) 30%, transparent);
+  }
+
+  .prose-m3 code:not(pre code) {
+    @apply px-1.5 py-0.5 rounded-md bg-md-surface-container text-md-primary font-mono text-sm font-medium border;
+    border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) 30%, transparent);
+  }
+
+  .prose-m3 hr {
+    @apply border-t my-8;
+    border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) 30%, transparent);
+  }
 }
