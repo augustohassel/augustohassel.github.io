@@ -20,8 +20,8 @@ const currentYear = new Date().getFullYear();
         {socialLinks.map((link) => (
           <a
             href={link.url}
-            target={link.url.startsWith('mailto:') ? undefined : '_blank'}
-            rel={link.url.startsWith('mailto:') ? undefined : 'me noopener noreferrer'}
+            target={link.url.startsWith('http') ? '_blank' : undefined}
+            rel={link.url.startsWith('http') ? 'me noopener noreferrer' : undefined}
             class="text-sm font-medium text-md-on-surface-variant hover:text-md-primary transition-colors focus:outline-none focus:ring-2 focus:ring-md-primary rounded px-2 py-1"
             aria-label={link.label}
           >

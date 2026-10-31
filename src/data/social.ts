@@ -20,9 +20,8 @@ export const socialLinks: SocialLink[] = [
   },
   {
     name: 'Contacto',
-    url: 'mailto:augusto@hasselpunk.com',
-    label: 'Enviar correo electrónico profesional a augusto@hasselpunk.com',
+    url: '/#contacto',
+    label: 'Ir a la sección de contacto y correo electrónico profesional',
     icon: 'email',
   },
 ];
-

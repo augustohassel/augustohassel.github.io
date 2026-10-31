@@ -4,6 +4,7 @@ import Card from '../components/Card.astro';
 import Badge from '../components/Badge.astro';
 import Button from '../components/Button.astro';
 import AboutMe from '../components/AboutMe.astro';
+import ContactSection from '../components/ContactSection.astro';
 
 const title = "Augusto Hassel | HasselPunk";
 const description = "Sitio personal y portfolio profesional de Augusto Hassel. Desarrollo de software y tecnología aplicada a finanzas e inteligencia artificial.";
@@ -46,7 +47,7 @@ const description = "Sitio personal y portfolio profesional de Augusto Hassel. D
 
       <Button
         as="a"
-        href="mailto:augusto@hasselpunk.com"
+        href="#contacto"
         variant="outlined"
       >
         Contacto directo
@@ -103,4 +104,7 @@ const description = "Sitio personal y portfolio profesional de Augusto Hassel. D
       </Card>
     </div>
   </section>
+
+  <!-- Sección de Contacto -->
+  <ContactSection />
 </BaseLayout>
