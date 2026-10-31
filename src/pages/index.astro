@@ -4,10 +4,9 @@ import Card from '../components/Card.astro';
 import Badge from '../components/Badge.astro';
 import Button from '../components/Button.astro';
 import AboutMe from '../components/AboutMe.astro';
-import PressSection from '../components/PressSection.astro';
 
 const title = "Augusto Hassel | HasselPunk";
-const description = "Sitio personal, portfolio profesional y reflexiones de Augusto Hassel. Economista, desarrollador y cofundador de Parra Payments. Finanzas, tecnología e IA.";
+const description = "Sitio personal y portfolio profesional de Augusto Hassel. Desarrollo de software y tecnología aplicada a finanzas e inteligencia artificial.";
 ---
 
 <BaseLayout title={title} description={description}>
@@ -25,7 +24,7 @@ const description = "Sitio personal, portfolio profesional y reflexiones de Augu
     </h1>
 
     <p class="max-w-2xl mx-auto text-lg sm:text-xl text-md-on-surface-variant leading-relaxed">
-      Economista, arquitecto de software y emprendedor. Construyendo en la intersección de <span class="font-semibold text-md-on-surface">finanzas cuantitativas</span>, <span class="font-semibold text-md-on-surface">tecnología</span> e <span class="font-semibold text-md-on-surface">inteligencia artificial</span>.
+      Desarrollo de software y tecnología aplicada a <span class="font-semibold text-md-on-surface">finanzas</span> e <span class="font-semibold text-md-on-surface">inteligencia artificial</span>.
     </p>
 
     <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
@@ -39,10 +38,10 @@ const description = "Sitio personal, portfolio profesional y reflexiones de Augu
 
       <Button
         as="a"
-        href="#prensa"
+        href="#proyectos"
         variant="tonal"
       >
-        Prensa y notas
+        Ver proyectos
       </Button>
 
       <Button
@@ -55,11 +54,8 @@ const description = "Sitio personal, portfolio profesional y reflexiones de Augu
     </div>
   </section>
 
-  <!-- Sección Sobre Mí (Bio 2026, Foto optimizada y Redes) -->
+  <!-- Sección Sobre Mí (Bio, Foto optimizada, redes y nota de Parra) -->
   <AboutMe />
-
-  <!-- Sección Prensa y Cobertura Mediática -->
-  <PressSection />
 
   <!-- Pilares de la Plataforma -->
   <section id="proyectos" class="scroll-mt-20 pt-8 pb-16 space-y-8 border-t border-md-outline-variant/20">
