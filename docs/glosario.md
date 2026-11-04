@@ -84,6 +84,14 @@ Este documento reúne las entidades, conceptos técnicos y jerga funcional del s
 
 ---
 
+### MiBarcito
+
+- **Definición**: Aplicación web progresiva (PWA) offline-first y mobile-first para gestión inteligente de despensa, stock de insumos y recetario dinámico de coctelería y bebidas con asistencia de modelos de IA multimodal y almacenamiento 100% en dispositivo (`IndexedDB`).
+- **Alcance / Propósito**: Proyecto activo 2026 en producción pública en `https://barcito.hasselpunk.com` con repositorio en `https://github.com/augustohassel/MiBarcito`.
+- **Lo que NO es**: No requiere servidores centrales ni almacena información de inventario o datos privados en bases de datos remotas.
+
+---
+
 ### Split
 
 - **Definición**: Aplicación web progresiva (PWA) offline-first y mobile-first para nadadores de competición y entrenamiento. Permite el registro de marcas por prueba oficial, cálculo automático de parciales (*splits*), computación local de Puntos FINA (World Aquatics) y seguimiento de evolución temporal con almacenamiento 100% en dispositivo (`IndexedDB`).
