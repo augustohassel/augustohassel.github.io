@@ -50,6 +50,25 @@ export const projectCategories: CategoryInfo[] = [
 export const projects: Project[] = [
   // 1. Proyectos Activos 2026
   {
+    id: 'mibarcito',
+    title: 'MiBarcito',
+    category: 'active',
+    description: 'Gestión inteligente de stock en despensa, recetario dinámico y asistencia de IA multimodal con privacidad local.',
+    tags: ['React 19', 'TypeScript', 'PWA', 'Tailwind CSS', 'IndexedDB', 'IA Multimodal'],
+    links: [
+      {
+        label: 'Probar Web App',
+        url: 'https://barcito.hasselpunk.com',
+        type: 'demo',
+      },
+      {
+        label: 'Repositorio',
+        url: 'https://github.com/augustohassel/MiBarcito',
+        type: 'github',
+      },
+    ],
+  },
+  {
     id: 'split',
     title: 'Split',
     category: 'active',
