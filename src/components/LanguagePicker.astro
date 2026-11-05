@@ -1,0 +1,46 @@
+---
+import { locales, localeShortLabels, localeNames, type Locale } from '../i18n/config';
+import { getLocaleFromUrl, getSwitchLocalePath, useTranslations } from '../i18n/utils';
+
+interface Props {
+  currentLocale?: Locale;
+  class?: string;
+}
+
+const { currentLocale = getLocaleFromUrl(Astro.url), class: className = '' } = Astro.props;
+const t = useTranslations(currentLocale);
+const currentPath = Astro.url.pathname;
+---
+
+<nav
+  class:list={[
+    "inline-flex items-center p-0.5 rounded-full bg-md-surface-container border border-md-outline-variant/40",
+    className
+  ]}
+  aria-label={t('langPicker.ariaLabel')}
+>
+  {locales.map((l) => {
+    const isActive = l === currentLocale;
+    const targetUrl = getSwitchLocalePath(currentPath, l);
+    const label = localeShortLabels[l];
+    const fullName = localeNames[l];
+
+    return (
+      <a
+        href={targetUrl}
+        class:list={[
+          "px-2.5 py-1 text-xs font-semibold rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-md-primary",
+          isActive
+            ? "bg-md-primary text-md-on-primary shadow-m3-1"
+            : "text-md-on-surface-variant hover:text-md-on-surface hover:bg-md-surface-variant/40"
+        ]}
+        aria-label={isActive ? `${fullName} (${t('langPicker.currentLangAria', { lang: fullName })})` : fullName}
+        aria-current={isActive ? 'true' : undefined}
+        title={fullName}
+      >
+        {label}
+      </a>
+    );
+  })}
+</nav>
+

@@ -2,24 +2,32 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { getLocaleFromUrl, useTranslations, type Locale } from '../i18n';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
+  locale?: Locale;
 }
 
+const detectedLocale = getLocaleFromUrl(Astro.url);
 const {
-  title = "Augusto Hassel | HasselPunk",
-  description = "Sitio personal, portfolio profesional y blog de Augusto Hassel.",
+  locale = detectedLocale,
+  title,
+  description,
   image = "/img/hasselpunk-logo.jpeg",
 } = Astro.props;
+
+const t = useTranslations(locale);
+const pageTitle = title || t('meta.defaultTitle');
+const pageDescription = description || t('meta.defaultDescription');
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.hasselpunk.com');
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-smooth">
+<html lang={locale} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,23 +35,23 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.hass
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
+    <meta name="description" content={pageDescription} />
 
     <!-- Open Graph / Redes Sociales -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:image" content={image} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
+    <meta property="twitter:title" content={pageTitle} />
+    <meta property="twitter:description" content={pageDescription} />
     <meta property="twitter:image" content={image} />
 
-    <title>{title}</title>
+    <title>{pageTitle}</title>
 
     <!-- Script Anti-FOUC con manejo seguro de localStorage y fallback prefers-color-scheme -->
     <script is:inline>
@@ -59,7 +67,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.hass
             document.documentElement.classList.add('light');
           }
         } catch (_) {
-          // Fallback silencioso en entornos restringidos (modo incógnito estricto / No-Storage)
+          // Fallback silencioso en entornos restringidos
         }
       })();
     </script>
@@ -70,16 +78,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.hass
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-md-primary text-md-on-primary font-medium rounded-lg shadow-m3-2 focus:outline-none focus:ring-2 focus:ring-md-primary"
     >
-      Saltar al contenido principal
+      {t('a11y.skipToContent')}
     </a>
 
-    <Header />
+    <Header currentLocale={locale} />
 
     <main id="main-content" class="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <slot />
     </main>
 
-    <Footer />
+    <Footer currentLocale={locale} />
   </body>
 </html>
-

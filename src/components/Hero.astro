@@ -1,0 +1,56 @@
+---
+import Badge from './Badge.astro';
+import Button from './Button.astro';
+import { getLocaleFromUrl, getLocalizedPath, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = getLocaleFromUrl(Astro.url) } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="py-12 sm:py-16 text-center space-y-6">
+  <div class="inline-flex items-center gap-2">
+    <Badge variant="primary" size="md">
+      <span class="w-2 h-2 rounded-full bg-md-primary animate-pulse"></span>
+      {t('hero.badge')}
+    </Badge>
+  </div>
+
+  <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-md-on-surface">
+    Augusto Hassel
+  </h1>
+
+  <p class="max-w-2xl mx-auto text-lg sm:text-xl text-md-on-surface-variant leading-relaxed">
+    {t('hero.subtitlePrefix')}<span class="font-semibold text-md-on-surface">{t('hero.finance')}</span>{t('hero.and')}<span class="font-semibold text-md-on-surface">{t('hero.ai')}</span>.
+  </p>
+
+  <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
+    <Button
+      as="a"
+      href={getLocalizedPath('#sobre-mi', locale)}
+      variant="filled"
+    >
+      {t('hero.aboutMeBtn')}
+    </Button>
+
+    <Button
+      as="a"
+      href={getLocalizedPath('#proyectos', locale)}
+      variant="tonal"
+    >
+      {t('hero.projectsBtn')}
+    </Button>
+
+    <Button
+      as="a"
+      href={getLocalizedPath('#contacto', locale)}
+      variant="outlined"
+    >
+      {t('hero.contactBtn')}
+    </Button>
+  </div>
+</section>
+

@@ -153,3 +153,12 @@ Este documento reúne las entidades, conceptos técnicos y jerga funcional del s
 - **Definición**: Convención y módulo utilitario (`src/utils/date.ts`) para el formateo homogéneo y determinista de fechas de publicaciones y metadatos en español de Argentina (`es-AR`) utilizando la API nativa `Intl.DateTimeFormat` con zona horaria UTC (`timeZone: 'UTC'`).
 - **Alcance / Propósito**: Garantizar que las fechas parseadas desde Markdown (`YYYY-MM-DD`, interpretadas como medianoche UTC) se muestren de forma idéntica y consistente tanto en compilaciones locales como en pipelines de CI (GitHub Actions) y en cualquier navegador, previniendo el desfase de un día (`off-by-one`), capturando valores inválidos con fallbacks seguros y evitando duplicaciones en componentes.
 - **Lo que NO es**: No utiliza librerías externas de fechas (`date-fns`, `dayjs`, `moment`) ni aplica la zona horaria local del cliente para fechas fijas de contenido histórico.
+
+---
+
+### Internacionalización UI (i18n UI)
+
+- **Definición**: Arquitectura y conjunto de módulos (`src/i18n/`) que habilita el soporte multi-idioma (Español `es`, Inglés `en` y Alemán `de`) en la interfaz de usuario, landing page y portfolio profesional mediante las capacidades nativas de enrutamiento estático de Astro 5 (`prefixDefaultLocale: false`).
+- **Alcance / Propósito**: Proveer traducciones tipadas estrictas de textos institucionales, metadatos, navegación y proyectos (`src/data/projects.ts`), acompañadas de un selector de idioma accesible (`LanguagePicker.astro`) y helpers de resolución de rutas para anclas y páginas sin versión traducida, preservando intactas las URLs canónicas y slugs históricos en español.
+- **Lo que NO es**: No utiliza librerías pesadas de runtime del lado del cliente ni afecta la traducción de artículos individuales del blog (abordados en el Issue #20).
+
