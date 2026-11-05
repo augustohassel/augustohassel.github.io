@@ -145,3 +145,11 @@ Este documento reúne las entidades, conceptos técnicos y jerga funcional del s
 - **Definición**: Categoría de archivo histórico dentro del blog de HasselPunk dedicada a tutoriales y artículos técnicos publicados en 2020 sobre el lenguaje de programación R, empaquetado con Docker, despliegue serverless de aplicaciones Shiny en Google Cloud Run y gestión de datos con Pins.
 - **Alcance / Propósito**: Preservar y catalogar el material técnico fundacional del sitio, distinguiéndolo de reflexiones profesionales o ensayos contemporáneos.
 - **Lo que NO es**: No representa el stack de desarrollo principal actual del sitio ni código activo en producción.
+
+---
+
+### Localización de Fechas (i18n de Fechas)
+
+- **Definición**: Convención y módulo utilitario (`src/utils/date.ts`) para el formateo homogéneo y determinista de fechas de publicaciones y metadatos en español de Argentina (`es-AR`) utilizando la API nativa `Intl.DateTimeFormat` con zona horaria UTC (`timeZone: 'UTC'`).
+- **Alcance / Propósito**: Garantizar que las fechas parseadas desde Markdown (`YYYY-MM-DD`, interpretadas como medianoche UTC) se muestren de forma idéntica y consistente tanto en compilaciones locales como en pipelines de CI (GitHub Actions) y en cualquier navegador, previniendo el desfase de un día (`off-by-one`), capturando valores inválidos con fallbacks seguros y evitando duplicaciones en componentes.
+- **Lo que NO es**: No utiliza librerías externas de fechas (`date-fns`, `dayjs`, `moment`) ni aplica la zona horaria local del cliente para fechas fijas de contenido histórico.
