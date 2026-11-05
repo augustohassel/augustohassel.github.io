@@ -1,6 +1,16 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import LanguagePicker from './LanguagePicker.astro';
 import Logo from './Logo.astro';
+import { getLocaleFromUrl, getLocalizedPath, useTranslations } from '../i18n';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  currentLocale?: Locale;
+}
+
+const { currentLocale = getLocaleFromUrl(Astro.url) } = Astro.props;
+const t = useTranslations(currentLocale);
 
 interface NavItem {
   label: string;
@@ -8,29 +18,31 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Inicio', href: '/' },
-  { label: 'Sobre mí', href: '/#sobre-mi' },
-  { label: 'Proyectos', href: '/#proyectos' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Contacto', href: '/#contacto' },
+  { label: t('nav.home'), href: getLocalizedPath('/', currentLocale) },
+  { label: t('nav.about'), href: getLocalizedPath('/#sobre-mi', currentLocale) },
+  { label: t('nav.projects'), href: getLocalizedPath('/#proyectos', currentLocale) },
+  { label: t('nav.blog'), href: getLocalizedPath('/blog', currentLocale) },
+  { label: t('nav.contact'), href: getLocalizedPath('/#contacto', currentLocale) },
 ];
+
+const homeUrl = getLocalizedPath('/', currentLocale);
 ---
 
 <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-md-surface/85 border-b border-md-outline-variant/30 transition-colors">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
     <!-- Brand / Logotipo con Isotipo HasselPunk -->
     <a
-      href="/"
+      href={homeUrl}
       class="flex items-center gap-3 font-semibold text-lg text-md-on-surface hover:text-md-primary transition-colors focus:outline-none focus:ring-2 focus:ring-md-primary rounded-lg px-1 py-1"
-      aria-label="HasselPunk - Inicio"
+      aria-label={`HasselPunk - ${t('nav.home')}`}
     >
       <Logo size="md" />
       <span class="tracking-tight">Augusto Hassel</span>
     </a>
 
-    <!-- Navegación y Conmutador de Tema -->
-    <div class="flex items-center gap-2 sm:gap-6">
-      <nav class="hidden sm:flex items-center gap-1" aria-label="Navegación principal">
+    <!-- Navegación, Selector de Idioma y Conmutador de Tema -->
+    <div class="flex items-center gap-2 sm:gap-4">
+      <nav class="hidden sm:flex items-center gap-1" aria-label={t('nav.mainNavAria')}>
         {navItems.map((item) => (
           <a
             href={item.href}
@@ -43,6 +55,11 @@ const navItems: NavItem[] = [
 
       <div class="h-6 w-px bg-md-outline-variant/40 hidden sm:block"></div>
 
+      <!-- Selector de Idioma en Desktop -->
+      <div class="hidden sm:block">
+        <LanguagePicker currentLocale={currentLocale} />
+      </div>
+
       <ThemeToggle />
 
       <!-- Botón de menú móvil (< sm) -->
@@ -52,8 +69,10 @@ const navItems: NavItem[] = [
         class="sm:hidden relative inline-flex items-center justify-center w-10 h-10 rounded-full text-md-on-surface-variant hover:text-md-on-surface hover:bg-md-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-md-primary transition-colors"
         aria-expanded="false"
         aria-controls="mobile-menu"
-        aria-label="Abrir menú de navegación"
-        title="Menú de navegación"
+        aria-label={t('nav.openMenuAria')}
+        title={t('nav.menuTitle')}
+        data-open-label={t('nav.openMenuAria')}
+        data-close-label={t('nav.closeMenuAria')}
       >
         <svg
           id="mobile-menu-icon-open"
@@ -92,8 +111,8 @@ const navItems: NavItem[] = [
   <!-- Menú desplegable móvil -->
   <nav
     id="mobile-menu"
-    class="hidden sm:hidden border-t border-md-outline-variant/30 bg-md-surface/95 backdrop-blur-md px-4 pt-2 pb-4 space-y-1 shadow-m3-2"
-    aria-label="Navegación móvil"
+    class="hidden sm:hidden border-t border-md-outline-variant/30 bg-md-surface/95 backdrop-blur-md px-4 pt-2 pb-4 space-y-2 shadow-m3-2"
+    aria-label={t('nav.mobileNavAria')}
   >
     {navItems.map((item) => (
       <a
@@ -103,6 +122,13 @@ const navItems: NavItem[] = [
         {item.label}
       </a>
     ))}
+
+    <div class="pt-2 border-t border-md-outline-variant/30 flex items-center justify-between px-2">
+      <span class="text-xs font-medium text-md-on-surface-variant">
+        {t('langPicker.ariaLabel')}
+      </span>
+      <LanguagePicker currentLocale={currentLocale} />
+    </div>
   </nav>
 </header>
 
@@ -115,15 +141,15 @@ const navItems: NavItem[] = [
 
     if (!menuBtn || !mobileMenu || !iconOpen || !iconClose) return;
 
+    const openLabel = menuBtn.getAttribute('data-open-label') || 'Abrir menú de navegación';
+    const closeLabel = menuBtn.getAttribute('data-close-label') || 'Cerrar menú de navegación';
+
     function setMenuOpen(isOpen) {
       mobileMenu.classList.toggle('hidden', !isOpen);
       iconOpen.classList.toggle('hidden', isOpen);
       iconClose.classList.toggle('hidden', !isOpen);
       menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      menuBtn.setAttribute(
-        'aria-label',
-        isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'
-      );
+      menuBtn.setAttribute('aria-label', isOpen ? closeLabel : openLabel);
     }
 
     menuBtn.addEventListener('click', () => {
@@ -131,7 +157,7 @@ const navItems: NavItem[] = [
       setMenuOpen(!isExpanded);
     });
 
-    // Cerrar menú al hacer clic en un enlace (útil en enlaces de ancla como #sobre-mi)
+    // Cerrar menú al hacer clic en un enlace
     const links = mobileMenu.querySelectorAll('.mobile-nav-link');
     links.forEach((link) => {
       link.addEventListener('click', () => setMenuOpen(false));
@@ -146,4 +172,3 @@ const navItems: NavItem[] = [
     });
   })();
 </script>
-

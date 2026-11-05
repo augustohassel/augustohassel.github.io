@@ -1,7 +1,17 @@
 ---
 import Badge from './Badge.astro';
 import ProjectCard from './ProjectCard.astro';
-import { projectCategories, projects } from '../data/projects';
+import { getProjectCategories, getProjects } from '../data/projects';
+import { getLocaleFromUrl, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = getLocaleFromUrl(Astro.url) } = Astro.props;
+const t = useTranslations(locale);
+const projectCategories = getProjectCategories(locale);
+const projects = getProjects(locale);
 ---
 
 <section id="proyectos" class="scroll-mt-20 py-12 sm:py-16 space-y-16 border-t border-md-outline-variant/20">
@@ -9,16 +19,16 @@ import { projectCategories, projects } from '../data/projects';
   <div class="space-y-4 max-w-3xl">
     <div class="inline-flex items-center gap-2">
       <Badge variant="primary" size="md">
-        Portfolio & Trayectoria
+        {t('projects.badge')}
       </Badge>
     </div>
 
     <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-md-on-surface">
-      Proyectos y Desarrollos
+      {t('projects.title')}
     </h2>
 
     <p class="text-base sm:text-lg text-md-on-surface-variant leading-relaxed">
-      Vitrina de desarrollos activos, herramientas offline-first orientadas a la privacidad, iniciativas fundacionales en tecnología financiera y contribuciones de código abierto.
+      {t('projects.description')}
     </p>
   </div>
 
@@ -47,7 +57,7 @@ import { projectCategories, projects } from '../data/projects';
           <!-- Grilla de Tarjetas -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {categoryProjects.map((project) => (
-              <ProjectCard project={project} />
+              <ProjectCard project={project} locale={locale} />
             ))}
           </div>
         </div>
@@ -55,4 +65,3 @@ import { projectCategories, projects } from '../data/projects';
     })}
   </div>
 </section>
-

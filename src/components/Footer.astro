@@ -1,6 +1,13 @@
 ---
 import { socialLinks } from '../data/social';
+import { getLocaleFromUrl, useTranslations, type Locale } from '../i18n';
 
+interface Props {
+  currentLocale?: Locale;
+}
+
+const { currentLocale = getLocaleFromUrl(Astro.url) } = Astro.props;
+const t = useTranslations(currentLocale);
 const currentYear = new Date().getFullYear();
 ---
 
@@ -12,7 +19,7 @@ const currentYear = new Date().getFullYear();
           HasselPunk · Augusto Hassel
         </p>
         <p class="text-xs text-md-on-surface-variant mt-1">
-          Construido con Astro 5, Tailwind CSS y principios de Material Design 3.
+          {t('footer.builtWith')}
         </p>
       </div>
 
@@ -32,9 +39,8 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <div class="mt-6 pt-4 border-t border-md-outline-variant/20 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-md-on-surface-variant">
-      <p>© {currentYear} Augusto Hassel. Todos los derechos reservados.</p>
+      <p>{t('footer.rights', { year: currentYear })}</p>
       <p>www.hasselpunk.com</p>
     </div>
   </div>
 </footer>
-

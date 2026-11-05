@@ -4,6 +4,14 @@ import profileImage from '../assets/images/augusto-hassel.jpg';
 import Badge from './Badge.astro';
 import Button from './Button.astro';
 import { socialLinks } from '../data/social';
+import { getLocaleFromUrl, getLocalizedPath, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = getLocaleFromUrl(Astro.url) } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <section id="sobre-mi" class="scroll-mt-20 py-12 sm:py-16">
@@ -13,7 +21,7 @@ import { socialLinks } from '../data/social';
       <div class="relative w-full max-w-xs sm:max-w-sm rounded-3xl overflow-hidden border-2 border-md-outline-variant/30 bg-md-surface-container shadow-xl">
         <Image
           src={profileImage}
-          alt="Fotografía de Augusto Hassel"
+          alt={t('about.photoAlt')}
           width={480}
           height={640}
           quality={90}
@@ -25,76 +33,76 @@ import { socialLinks } from '../data/social';
           <span class="font-medium">Augusto Hassel</span>
           <span class="inline-flex items-center gap-1.5 text-md-on-surface-variant">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Buenos Aires, AR
+            {t('about.location')}
           </span>
         </div>
       </div>
     </div>
 
-    <!-- Columna Contenido y Bio 2026 -->
+    <!-- Columna Contenido y Bio -->
     <div class="md:col-span-7 space-y-6 text-left">
       <div class="space-y-2">
         <Badge variant="primary" size="md">
-          Sobre mí
+          {t('about.badge')}
         </Badge>
         <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-md-on-surface">
-          Quién soy
+          {t('about.title')}
         </h2>
       </div>
 
       <p class="text-lg sm:text-xl font-medium text-md-primary leading-snug">
-        Desarrollo de software y tecnología aplicada a finanzas e inteligencia artificial.
+        {t('about.subtitle')}
       </p>
 
       <div class="space-y-4 text-base text-md-on-surface-variant leading-relaxed">
+        <p set:html={t('about.p1')} />
+        <p set:html={t('about.p2')} />
         <p>
-          Comencé en tecnología y finanzas fundando <strong class="text-md-on-surface">Puerto Finanzas</strong>, una comunidad y plataforma de análisis sobre mercados de capitales en Argentina.
-        </p>
-        <p>
-          A lo largo de los años trabajé en desarrollo de software, datos y finanzas cuantitativas en el sector financiero y bursátil, en firmas como <strong class="text-md-on-surface">Matba Rofex</strong>, <strong class="text-md-on-surface">Bull Market Brokers</strong> y <strong class="text-md-on-surface">Cohen</strong>.
-        </p>
-        <p>
-          Fui cofundador de <strong class="text-md-on-surface">Parra Payments</strong>, plataforma donde desarrollamos soluciones de software y pagos QR para gastronomía. Transitamos desde sus etapas iniciales e inversión con <strong class="text-md-on-surface">DC Ventures</strong> hasta su posterior adquisición y fusión con <strong class="text-md-on-surface">Eastern Point Trust Company (NEMI)</strong> (<a
+          <span set:html={t('about.p3')} /> (<a
             href="/blog/adios-a-parra-lecciones-aprendidas/"
             class="text-md-primary hover:underline inline-flex items-center gap-1 font-medium"
-            aria-label="Leer nota: Adiós Parra: Lecciones aprendidas en el blog"
-          ><span>leer nota sobre el proceso y aprendizajes</span></a>).
+            aria-label={t('about.p3LinkAria')}
+          ><span>{t('about.p3Link')}</span></a>).
         </p>
-        <p>
-          Actualmente me dedico a la arquitectura de software, herramientas de desarrollo e investigación aplicada con agentes de inteligencia artificial.
-        </p>
+        <p set:html={t('about.p4')} />
       </div>
 
       <!-- Enlaces a Redes y Contacto -->
       <div class="pt-2 flex flex-wrap items-center gap-3">
-        {socialLinks.map((link) => (
-          <Button
-            as="a"
-            href={link.url}
-            variant={link.icon === 'github' ? 'filled' : link.icon === 'linkedin' ? 'tonal' : 'outlined'}
-            target={link.url.startsWith('http') ? '_blank' : undefined}
-            rel={link.url.startsWith('http') ? 'me noopener noreferrer' : undefined}
-            aria-label={link.label}
-            title={link.name === 'Contacto' ? 'Ir a la sección de contacto' : undefined}
-          >
-            {link.icon === 'github' && (
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
-              </svg>
-            )}
-            {link.icon === 'linkedin' && (
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-              </svg>
-            )}
-            {link.icon === 'email' && (
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            )}
-            <span>{link.name}</span>
-          </Button>
-        ))}
+        {socialLinks.map((link) => {
+          const resolvedUrl = link.url.startsWith('/') || link.url.startsWith('#')
+            ? getLocalizedPath(link.url, locale)
+            : link.url;
+
+          return (
+            <Button
+              as="a"
+              href={resolvedUrl}
+              variant={link.icon === 'github' ? 'filled' : link.icon === 'linkedin' ? 'tonal' : 'outlined'}
+              target={resolvedUrl.startsWith('http') ? '_blank' : undefined}
+              rel={resolvedUrl.startsWith('http') ? 'me noopener noreferrer' : undefined}
+              aria-label={link.label}
+              title={link.name === 'Contacto' ? t('about.contactLinkTitle') : undefined}
+            >
+              {link.icon === 'github' && (
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                </svg>
+              )}
+              {link.icon === 'linkedin' && (
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              )}
+              {link.icon === 'email' && (
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              )}
+              <span>{link.name}</span>
+            </Button>
+          );
+        })}
       </div>
     </div>
   </div>
