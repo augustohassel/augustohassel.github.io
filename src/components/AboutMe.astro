@@ -12,6 +12,13 @@ interface Props {
 
 const { locale = getLocaleFromUrl(Astro.url) } = Astro.props;
 const t = useTranslations(locale);
+
+const parraPostUrl =
+  locale === 'en'
+    ? '/en/blog/farewell-to-parra-lessons-learned/'
+    : locale === 'de'
+      ? '/de/blog/abschied-von-parra-gelernte-lektionen/'
+      : '/blog/adios-a-parra-lecciones-aprendidas/';
 ---
 
 <section id="sobre-mi" class="scroll-mt-20 py-12 sm:py-16">
@@ -59,7 +66,7 @@ const t = useTranslations(locale);
         <p set:html={t('about.p2')} />
         <p>
           <span set:html={t('about.p3')} /> (<a
-            href="/blog/adios-a-parra-lecciones-aprendidas/"
+            href={parraPostUrl}
             class="text-md-primary hover:underline inline-flex items-center gap-1 font-medium"
             aria-label={t('about.p3LinkAria')}
           ><span>{t('about.p3Link')}</span></a>).

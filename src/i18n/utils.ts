@@ -49,9 +49,9 @@ export function getLocalizedPath(path: string, locale: Locale = defaultLocale): 
     return path;
   }
 
-  // Rutas del blog permanecen en /blog (Issue #20 incorporará sus variantes)
-  if (path === '/blog' || path.startsWith('/blog/')) {
-    return path;
+  // Rutas del índice de blog
+  if (path === '/blog' || path === '/blog/') {
+    return targetLocale === defaultLocale ? '/blog/' : `/${targetLocale}/blog/`;
   }
 
   // Si es un ancla pura (#sobre-mi), normalizamos a la página actual con prefijo
@@ -90,17 +90,47 @@ export function getLocalizedPath(path: string, locale: Locale = defaultLocale): 
 
 /**
  * Obtiene la URL de destino al alternar de idioma desde cualquier página del sitio.
- * Si se encuentra en una sección sin versión traducida (ej. /blog), redirige
- * de forma segura a la landing del idioma seleccionado para evitar errores 404.
+ * Soporta alternateUrls explícitas (ej. variantes de un post del blog) y aplica
+ * fallbacks seguros (ej. posts que solo existen en español redirigen a /en/blog/ o /de/blog/)
+ * para evitar enlaces rotos o 404s.
  */
-export function getSwitchLocalePath(pathname: string, targetLocale: Locale): string {
-  if (pathname.startsWith('/blog')) {
-    if (targetLocale === defaultLocale) {
-      return pathname.endsWith('/') ? pathname : `${pathname}/`;
-    }
-    return `/${targetLocale}/`;
+export function getSwitchLocalePath(
+  pathname: string,
+  targetLocale: Locale,
+  alternateUrls?: Partial<Record<Locale, string>>
+): string {
+  if (alternateUrls && alternateUrls[targetLocale]) {
+    const url = alternateUrls[targetLocale]!;
+    return url.endsWith('/') || url.includes('#') ? url : `${url}/`;
   }
 
-  return getLocalizedPath('/', targetLocale);
+  const cleanPath = pathname.replace(/\/$/, '') || '/';
+
+  // Si está en el índice del blog
+  if (cleanPath === '/blog' || cleanPath === '/en/blog' || cleanPath === '/de/blog') {
+    if (targetLocale === defaultLocale) {
+      return '/blog/';
+    }
+    return `/${targetLocale}/blog/`;
+  }
+
+  // Si está en una subpágina del blog sin traducción explícita, redirige al índice del blog
+  if (
+    cleanPath.startsWith('/blog/') ||
+    cleanPath.startsWith('/en/blog/') ||
+    cleanPath.startsWith('/de/blog/')
+  ) {
+    if (targetLocale === defaultLocale) {
+      return '/blog/';
+    }
+    return `/${targetLocale}/blog/`;
+  }
+
+  // Para la raíz / landing o anclas
+  if (cleanPath === '/' || cleanPath === '/en' || cleanPath === '/de') {
+    return getLocalizedPath('/', targetLocale);
+  }
+
+  return getLocalizedPath(cleanPath, targetLocale);
 }
 

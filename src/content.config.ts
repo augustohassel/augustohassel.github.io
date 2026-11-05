@@ -12,6 +12,8 @@ const blog = defineCollection({
     category: z.string().default('Archivo / R'),
     image: z.string().optional(),
     featured: z.boolean().default(false),
+    lang: z.enum(['es', 'en', 'de']).default('es'),
+    translationKey: z.string().optional(),
   }),
 });
 

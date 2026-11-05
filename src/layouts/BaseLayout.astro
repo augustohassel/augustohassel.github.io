@@ -9,6 +9,8 @@ interface Props {
   description?: string;
   image?: string;
   locale?: Locale;
+  alternateUrls?: Partial<Record<Locale, string>>;
+  hreflangUrls?: Partial<Record<Locale | 'x-default', string>>;
 }
 
 const detectedLocale = getLocaleFromUrl(Astro.url);
@@ -17,13 +19,55 @@ const {
   title,
   description,
   image = "/img/hasselpunk-logo.jpeg",
+  alternateUrls,
+  hreflangUrls,
 } = Astro.props;
 
 const t = useTranslations(locale);
 const pageTitle = title || t('meta.defaultTitle');
 const pageDescription = description || t('meta.defaultDescription');
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.hasselpunk.com');
+const siteOrigin = (Astro.site ? Astro.site.href : 'https://www.hasselpunk.com').replace(/\/$/, '');
+const canonicalURL = new URL(Astro.url.pathname, siteOrigin);
+
+function toAbsoluteUrl(path: string): string {
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  const normalized = path.startsWith('/') ? path : `/${path}`;
+  return `${siteOrigin}${normalized}`;
+}
+
+// Cálculo determinista de etiquetas hreflang recíprocas
+let computedHreflangs: { lang: string; url: string }[] = [];
+
+if (hreflangUrls) {
+  computedHreflangs = Object.entries(hreflangUrls).map(([lang, path]) => ({
+    lang,
+    url: toAbsoluteUrl(path),
+  }));
+} else {
+  const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+  if (currentPath === '/blog' || currentPath === '/en/blog' || currentPath === '/de/blog') {
+    computedHreflangs = [
+      { lang: 'es', url: toAbsoluteUrl('/blog/') },
+      { lang: 'en', url: toAbsoluteUrl('/en/blog/') },
+      { lang: 'de', url: toAbsoluteUrl('/de/blog/') },
+      { lang: 'x-default', url: toAbsoluteUrl('/blog/') },
+    ];
+  } else if (currentPath === '/' || currentPath === '/en' || currentPath === '/de') {
+    computedHreflangs = [
+      { lang: 'es', url: toAbsoluteUrl('/') },
+      { lang: 'en', url: toAbsoluteUrl('/en/') },
+      { lang: 'de', url: toAbsoluteUrl('/de/') },
+      { lang: 'x-default', url: toAbsoluteUrl('/') },
+    ];
+  } else {
+    computedHreflangs = [
+      { lang: locale, url: canonicalURL.href },
+      { lang: 'x-default', url: canonicalURL.href },
+    ];
+  }
+}
 ---
 
 <!doctype html>
@@ -34,6 +78,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.hass
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="canonical" href={canonicalURL} />
+
+    <!-- SEO hreflang para internacionalización recíproca -->
+    {computedHreflangs.map(({ lang, url }) => (
+      <link rel="alternate" hreflang={lang} href={url} />
+    ))}
+
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={pageDescription} />
 
@@ -81,7 +131,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.hass
       {t('a11y.skipToContent')}
     </a>
 
-    <Header currentLocale={locale} />
+    <Header currentLocale={locale} alternateUrls={alternateUrls} />
 
     <main id="main-content" class="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <slot />
