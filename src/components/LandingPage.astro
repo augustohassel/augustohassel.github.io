@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from './Hero.astro';
+import AboutMe from './AboutMe.astro';
+import ProjectsSection from './ProjectsSection.astro';
+import ContactSection from './ContactSection.astro';
+import { useTranslations, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const title = t('meta.defaultTitle');
+const description = t('meta.defaultDescription');
+---
+
+<BaseLayout title={title} description={description} locale={locale}>
+  <!-- Hero Section -->
+  <Hero locale={locale} />
+
+  <!-- Sección Sobre Mí -->
+  <AboutMe locale={locale} />
+
+  <!-- Sección Portfolio de Proyectos -->
+  <ProjectsSection locale={locale} />
+
+  <!-- Sección de Contacto -->
+  <ContactSection locale={locale} />
+</BaseLayout>
+

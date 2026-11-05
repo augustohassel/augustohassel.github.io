@@ -4,6 +4,13 @@ import tailwind from '@astrojs/tailwind';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.hasselpunk.com',
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en', 'de'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   integrations: [tailwind()],
   output: 'static',
   server: {

@@ -3,12 +3,15 @@ import Card from './Card.astro';
 import Badge from './Badge.astro';
 import Button from './Button.astro';
 import type { Project } from '../data/projects';
+import { getLocaleFromUrl, useTranslations, type Locale } from '../i18n';
 
 interface Props {
   project: Project;
+  locale?: Locale;
 }
 
-const { project } = Astro.props;
+const { project, locale = getLocaleFromUrl(Astro.url) } = Astro.props;
+const t = useTranslations(locale);
 const hasLinks = Boolean(project.links && project.links.length > 0);
 ---
 
@@ -33,7 +36,7 @@ const hasLinks = Boolean(project.links && project.links.length > 0);
     </p>
 
     <!-- Tags tecnológicos -->
-    <div class="flex flex-wrap gap-1.5 pt-2" aria-label={`Tecnologías de ${project.title}`}>
+    <div class="flex flex-wrap gap-1.5 pt-2" aria-label={t('projects.techAria', { title: project.title })}>
       {project.tags.map((tag) => (
         <Badge variant="surface" size="sm">
           {tag}
@@ -57,7 +60,7 @@ const hasLinks = Boolean(project.links && project.links.length > 0);
           size="sm"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`${link.label}: ${project.title} (abre en nueva pestaña)`}
+          aria-label={`${link.label}: ${project.title} (${t('projects.opensInNewTab')})`}
         >
           {isGithub && (
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -87,9 +90,8 @@ const hasLinks = Boolean(project.links && project.links.length > 0);
         <svg class="w-4 h-4 text-md-on-surface-variant/60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
-        Registro histórico sin repositorio público
+        {t('projects.noRepo')}
       </span>
     )}
   </div>
 </Card>
-
