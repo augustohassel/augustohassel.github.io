@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Badge from '../components/Badge.astro';
 import Button from '../components/Button.astro';
+import { formatDateLong, toISODateString } from '../utils/date';
 
 interface Props {
   title: string;
@@ -23,12 +24,8 @@ const {
   image,
 } = Astro.props;
 
-const formattedDate = new Intl.DateTimeFormat('es-AR', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'UTC',
-}).format(date);
+const formattedDate = formatDateLong(date);
+const isoDate = toISODateString(date);
 ---
 
 <BaseLayout title={`${title} | HasselPunk Blog`} description={description} image={image}>
@@ -57,7 +54,7 @@ const formattedDate = new Intl.DateTimeFormat('es-AR', {
         <Badge variant={category === 'Archivo / R' ? 'secondary' : 'primary'} size="md">
           {category}
         </Badge>
-        <time datetime={date.toISOString()} class="text-xs sm:text-sm text-md-on-surface-variant">
+        <time datetime={isoDate} class="text-xs sm:text-sm text-md-on-surface-variant">
           {formattedDate}
         </time>
         <span aria-hidden="true" class="text-md-outline-variant">•</span>
