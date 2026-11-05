@@ -4,10 +4,11 @@ import { getLocaleFromUrl, getSwitchLocalePath, useTranslations } from '../i18n/
 
 interface Props {
   currentLocale?: Locale;
+  alternateUrls?: Partial<Record<Locale, string>>;
   class?: string;
 }
 
-const { currentLocale = getLocaleFromUrl(Astro.url), class: className = '' } = Astro.props;
+const { currentLocale = getLocaleFromUrl(Astro.url), alternateUrls, class: className = '' } = Astro.props;
 const t = useTranslations(currentLocale);
 const currentPath = Astro.url.pathname;
 ---
@@ -21,7 +22,7 @@ const currentPath = Astro.url.pathname;
 >
   {locales.map((l) => {
     const isActive = l === currentLocale;
-    const targetUrl = getSwitchLocalePath(currentPath, l);
+    const targetUrl = getSwitchLocalePath(currentPath, l, alternateUrls);
     const label = localeShortLabels[l];
     const fullName = localeNames[l];
 

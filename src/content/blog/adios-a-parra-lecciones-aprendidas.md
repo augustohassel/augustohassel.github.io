@@ -7,6 +7,8 @@ image: "/img/blog/adios-a-parra-cover.png"
 description: "Reflexión en primera persona sobre el ciclo completo de Parra Payments: desde la fundación y el crecimiento en pandemia hasta su venta, compartiendo aprendizajes directos en tecnología, liderazgo y resiliencia."
 tags: ["Startups", "Emprendimiento", "Liderazgo", "Parra Payments", "Aprendizajes"]
 category: "Emprendimiento"
+lang: "es"
+translationKey: "adios-a-parra"
 ---
 
 <p align="center" class="my-6">

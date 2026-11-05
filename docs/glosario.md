@@ -150,15 +150,23 @@ Este documento reúne las entidades, conceptos técnicos y jerga funcional del s
 
 ### Localización de Fechas (i18n de Fechas)
 
-- **Definición**: Convención y módulo utilitario (`src/utils/date.ts`) para el formateo homogéneo y determinista de fechas de publicaciones y metadatos en español de Argentina (`es-AR`) utilizando la API nativa `Intl.DateTimeFormat` con zona horaria UTC (`timeZone: 'UTC'`).
-- **Alcance / Propósito**: Garantizar que las fechas parseadas desde Markdown (`YYYY-MM-DD`, interpretadas como medianoche UTC) se muestren de forma idéntica y consistente tanto en compilaciones locales como en pipelines de CI (GitHub Actions) y en cualquier navegador, previniendo el desfase de un día (`off-by-one`), capturando valores inválidos con fallbacks seguros y evitando duplicaciones en componentes.
+- **Definición**: Convención y módulo utilitario (`src/utils/date.ts`) para el formateo homogéneo y determinista de fechas de publicaciones y metadatos en español de Argentina (`es-AR`), inglés estadounidense (`en-US`) y alemán (`de-DE`) utilizando la API nativa `Intl.DateTimeFormat` con zona horaria UTC (`timeZone: 'UTC'`).
+- **Alcance / Propósito**: Garantizar que las fechas parseadas desde Markdown (`YYYY-MM-DD`, interpretadas como medianoche UTC) se muestren de forma idéntica, consistente y según el idioma activo tanto en compilaciones locales como en pipelines de CI (GitHub Actions) y en cualquier navegador, previniendo el desfase de un día (`off-by-one`), capturando valores inválidos con fallbacks seguros y evitando duplicaciones en componentes.
 - **Lo que NO es**: No utiliza librerías externas de fechas (`date-fns`, `dayjs`, `moment`) ni aplica la zona horaria local del cliente para fechas fijas de contenido histórico.
 
 ---
 
 ### Internacionalización UI (i18n UI)
 
-- **Definición**: Arquitectura y conjunto de módulos (`src/i18n/`) que habilita el soporte multi-idioma (Español `es`, Inglés `en` y Alemán `de`) en la interfaz de usuario, landing page y portfolio profesional mediante las capacidades nativas de enrutamiento estático de Astro 5 (`prefixDefaultLocale: false`).
+- **Definición**: Arquitectura y conjunto de módulos (`src/i18n/`) que habilita el soporte multi-idioma (Español `es`, Inglés `en` y Alemán `de`) en la interfaz de usuario, landing page, portfolio profesional y secciones compartidas mediante las capacidades nativas de enrutamiento estático de Astro 5 (`prefixDefaultLocale: false`).
 - **Alcance / Propósito**: Proveer traducciones tipadas estrictas de textos institucionales, metadatos, navegación y proyectos (`src/data/projects.ts`), acompañadas de un selector de idioma accesible (`LanguagePicker.astro`) y helpers de resolución de rutas para anclas y páginas sin versión traducida, preservando intactas las URLs canónicas y slugs históricos en español.
-- **Lo que NO es**: No utiliza librerías pesadas de runtime del lado del cliente ni afecta la traducción de artículos individuales del blog (abordados en el Issue #20).
+- **Lo que NO es**: No utiliza librerías pesadas de runtime del lado del cliente ni impone redirecciones automáticas basadas en la IP del visitante.
+
+---
+
+### Internacionalización del Blog y Fallback Seguro (i18n Blog)
+
+- **Definición**: Arquitectura de contenidos y enrutamiento localizada para el blog (`/blog`, `/en/blog`, `/de/blog`) en Astro 5 mediante Content Collections tipadas con `lang` y `translationKey`.
+- **Alcance / Propósito**: Soportar artículos traducidos con slugs semánticos propios enlazados mediante etiquetas SEO `hreflang` recíprocas, feeds multilingües con badges distintivos de idioma (`In Spanish only` / `Nur auf Spanisch`) para contenidos que solo existen en español, y resolución de fallback seguro en el selector de idioma hacia los índices respectivos evitando enlaces rotos (404) y preservando los slugs históricos en español (`/blog/<slug>/`).
+- **Lo que NO es**: No duplica entradas en los índices de idiomas secundarios ni altera los identificadores ni URLs de los artículos de archivo técnico de 2020.
 

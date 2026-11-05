@@ -1,0 +1,65 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogPostLayout from '../../../layouts/BlogPostLayout.astro';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  const enPosts = allPosts.filter((p) => p.data.lang === 'en');
+
+  return enPosts.map((post) => {
+    let alternateUrls: Record<'es' | 'en' | 'de', string> = {
+      es: '/blog/',
+      en: `/en/blog/${post.id}/`,
+      de: '/de/blog/',
+    };
+
+    let hreflangUrls: Partial<Record<'es' | 'en' | 'de' | 'x-default', string>> = {
+      en: `/en/blog/${post.id}/`,
+      'x-default': `/en/blog/${post.id}/`,
+    };
+
+    if (post.data.translationKey) {
+      const esPost = allPosts.find(
+        (p) => p.data.translationKey === post.data.translationKey && (p.data.lang ?? 'es') === 'es'
+      );
+      const dePost = allPosts.find(
+        (p) => p.data.translationKey === post.data.translationKey && p.data.lang === 'de'
+      );
+
+      if (esPost) {
+        alternateUrls.es = `/blog/${esPost.id}/`;
+        hreflangUrls.es = `/blog/${esPost.id}/`;
+        hreflangUrls['x-default'] = `/blog/${esPost.id}/`;
+      }
+      if (dePost) {
+        alternateUrls.de = `/de/blog/${dePost.id}/`;
+        hreflangUrls.de = `/de/blog/${dePost.id}/`;
+      }
+    }
+
+    return {
+      params: { slug: post.id },
+      props: { post, alternateUrls, hreflangUrls },
+    };
+  });
+}
+
+const { post, alternateUrls, hreflangUrls } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BlogPostLayout
+  title={post.data.title}
+  description={post.data.description}
+  date={post.data.date}
+  author={post.data.author}
+  category={post.data.category}
+  tags={post.data.tags}
+  image={post.data.image}
+  locale="en"
+  alternateUrls={alternateUrls}
+  hreflangUrls={hreflangUrls}
+>
+  <Content />
+</BlogPostLayout>
+
