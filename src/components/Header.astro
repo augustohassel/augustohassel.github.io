@@ -7,9 +7,10 @@ import type { Locale } from '../i18n/config';
 
 interface Props {
   currentLocale?: Locale;
+  alternateUrls?: Partial<Record<Locale, string>>;
 }
 
-const { currentLocale = getLocaleFromUrl(Astro.url) } = Astro.props;
+const { currentLocale = getLocaleFromUrl(Astro.url), alternateUrls } = Astro.props;
 const t = useTranslations(currentLocale);
 
 interface NavItem {
@@ -57,7 +58,7 @@ const homeUrl = getLocalizedPath('/', currentLocale);
 
       <!-- Selector de Idioma en Desktop -->
       <div class="hidden sm:block">
-        <LanguagePicker currentLocale={currentLocale} />
+        <LanguagePicker currentLocale={currentLocale} alternateUrls={alternateUrls} />
       </div>
 
       <ThemeToggle />
@@ -127,7 +128,7 @@ const homeUrl = getLocalizedPath('/', currentLocale);
       <span class="text-xs font-medium text-md-on-surface-variant">
         {t('langPicker.ariaLabel')}
       </span>
-      <LanguagePicker currentLocale={currentLocale} />
+      <LanguagePicker currentLocale={currentLocale} alternateUrls={alternateUrls} />
     </div>
   </nav>
 </header>

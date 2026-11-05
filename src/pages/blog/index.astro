@@ -1,47 +1,51 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Badge from '../../components/Badge.astro';
-import Card from '../../components/Card.astro';
+import BlogCard from '../../components/BlogCard.astro';
 import { getCollection } from 'astro:content';
-import { formatDateShort, toISODateString } from '../../utils/date';
+import { useTranslations } from '../../i18n';
 
-const posts = await getCollection('blog');
+const t = useTranslations('es');
+const allPosts = await getCollection('blog');
+const posts = allPosts.filter((p) => (p.data.lang ?? 'es') === 'es');
 
 // Orden cronológico descendente (más recientes primero)
 const sortedPosts = posts.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
-const categories = ['Todos', ...new Set(posts.map((p) => p.data.category))];
+const categories = [t('blog.filterAll'), ...new Set(posts.map((p) => p.data.category))];
 ---
 
 <BaseLayout
-  title="Blog y Publicaciones | HasselPunk"
-  description="Artículos sobre arquitectura de software, lecciones de startups y archivo técnico sobre R, Docker y Google Cloud por Augusto Hassel."
+  title={t('blog.metaTitle')}
+  description={t('blog.metaDescription')}
+  locale="es"
 >
   <div class="space-y-10 sm:space-y-12 py-4 sm:py-8">
     <!-- Cabecera de la sección -->
     <header class="space-y-4 max-w-3xl">
       <div class="space-y-2">
         <Badge variant="primary" size="md">
-          Publicaciones
+          {t('blog.badge')}
         </Badge>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-md-on-surface">
-          Blog & Artículos
+          {t('blog.title')}
         </h1>
       </div>
       <p class="text-base sm:text-lg text-md-on-surface-variant leading-relaxed">
-        Reflexiones sobre desarrollo de producto, arquitectura y el archivo histórico de guías técnicas sobre R, Docker y Cloud Run.
+        {t('blog.subtitle')}
       </p>
 
       <!-- Selector de categoría accesible (Filtro) -->
-      <div class="pt-4 flex flex-wrap items-center gap-2" role="tablist" aria-label="Filtrar por categoría">
+      <div class="pt-4 flex flex-wrap items-center gap-2" role="tablist" aria-label={t('blog.filterAria')}>
         {categories.map((cat, index) => (
           <button
             type="button"
             role="tab"
             aria-selected={index === 0 ? 'true' : 'false'}
             data-category={cat}
+            data-all-label={t('blog.filterAll')}
             class:list={[
               'filter-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 border',
               index === 0
@@ -49,7 +53,7 @@ const categories = ['Todos', ...new Set(posts.map((p) => p.data.category))];
                 : 'bg-md-surface-container-low text-md-on-surface-variant border-md-outline-variant/30 hover:bg-md-surface-container hover:text-md-on-surface'
             ]}
           >
-            {cat} {cat === 'Todos' ? `(${posts.length})` : `(${posts.filter((p) => p.data.category === cat).length})`}
+            {cat} {cat === t('blog.filterAll') ? `(${posts.length})` : `(${posts.filter((p) => p.data.category === cat).length})`}
           </button>
         ))}
       </div>
@@ -58,67 +62,18 @@ const categories = ['Todos', ...new Set(posts.map((p) => p.data.category))];
     <!-- Grilla de Artículos -->
     <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
       {sortedPosts.map((post) => (
-        <article
-          data-category={post.data.category}
-          class="post-card flex flex-col h-full"
-        >
-          <Card
-            as="a"
-            href={`/blog/${post.id}/`}
-            variant="outlined"
-            class="flex-1 flex flex-col justify-between sm:p-7 hover:border-md-primary/60 hover:shadow-m3-2 transition-all duration-300 group"
-          >
-            <div class="space-y-4">
-              <!-- Metadatos superiores -->
-              <div class="flex items-center justify-between gap-2 text-xs">
-                <Badge
-                  variant={post.data.category === 'Archivo / R' ? 'secondary' : 'primary'}
-                  size="sm"
-                >
-                  {post.data.category}
-                </Badge>
-                <time datetime={toISODateString(post.data.date)} class="text-md-on-surface-variant font-medium">
-                  {formatDateShort(post.data.date)}
-                </time>
-              </div>
-
-              <!-- Título -->
-              <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-md-on-surface group-hover:text-md-primary transition-colors leading-snug">
-                {post.data.title}
-              </h2>
-
-              <!-- Descripción -->
-              <p class="text-sm text-md-on-surface-variant leading-relaxed line-clamp-3">
-                {post.data.description}
-              </p>
-            </div>
-
-            <!-- Footer de la tarjeta: Tags y enlace de lectura -->
-            <div class="pt-6 mt-4 border-t border-md-outline-variant/20 flex items-center justify-between gap-2">
-              <div class="flex flex-wrap items-center gap-1.5 overflow-hidden">
-                {post.data.tags.slice(0, 3).map((tag) => (
-                  <span class="text-[11px] px-2 py-0.5 rounded-md bg-md-surface-container text-md-on-surface-variant font-medium">
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-
-              <span class="inline-flex items-center gap-1 text-xs font-semibold text-md-primary group-hover:translate-x-1 transition-transform flex-shrink-0">
-                <span>Leer</span>
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </span>
-            </div>
-          </Card>
-        </article>
+        <BlogCard
+          post={post}
+          href={`/blog/${post.id}/`}
+          locale="es"
+        />
       ))}
     </div>
 
     <!-- Estado vacío si el filtro no arroja resultados -->
     <div id="empty-state" class="hidden text-center py-16 space-y-3 bg-md-surface-container-low rounded-3xl border border-md-outline-variant/30 p-8">
-      <p class="text-lg font-semibold text-md-on-surface">No se encontraron artículos en esta categoría.</p>
-      <p class="text-sm text-md-on-surface-variant">Probá seleccionando "Todos" para ver todas las publicaciones.</p>
+      <p class="text-lg font-semibold text-md-on-surface">{t('blog.emptyTitle')}</p>
+      <p class="text-sm text-md-on-surface-variant">{t('blog.emptyDescription')}</p>
     </div>
   </div>
 
@@ -135,6 +90,7 @@ const categories = ['Todos', ...new Set(posts.map((p) => p.data.category))];
       buttons.forEach((btn) => {
         btn.addEventListener('click', () => {
           const selectedCategory = btn.getAttribute('data-category');
+          const allLabel = btn.getAttribute('data-all-label') || 'Todos';
 
           // Actualizar estado de botones
           buttons.forEach((b) => {
@@ -153,7 +109,7 @@ const categories = ['Todos', ...new Set(posts.map((p) => p.data.category))];
           let visibleCount = 0;
           cards.forEach((card) => {
             const cardCategory = card.getAttribute('data-category');
-            if (selectedCategory === 'Todos' || cardCategory === selectedCategory) {
+            if (selectedCategory === allLabel || cardCategory === selectedCategory) {
               card.classList.remove('hidden');
               visibleCount++;
             } else {
@@ -174,4 +130,3 @@ const categories = ['Todos', ...new Set(posts.map((p) => p.data.category))];
     })();
   </script>
 </BaseLayout>
-

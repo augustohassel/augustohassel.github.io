@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Badge from '../../../components/Badge.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../../i18n';
+
+const t = useTranslations('de');
+const allPosts = await getCollection('blog');
+
+// Artículos traducidos a alemán
+const dePosts = allPosts.filter((p) => p.data.lang === 'de');
+const deKeys = new Set(dePosts.map((p) => p.data.translationKey).filter(Boolean));
+
+// Artículos que solo existen en español (excluyendo el original de Parra si ya está su versión en alemán)
+const spanishOnlyPosts = allPosts.filter((p) => {
+  const isEs = (p.data.lang ?? 'es') === 'es';
+  if (!isEs) return false;
+  if (p.data.translationKey && deKeys.has(p.data.translationKey)) {
+    return false;
+  }
+  return true;
+});
+
+const feedItems = [
+  ...dePosts.map((post) => ({
+    post,
+    href: `/de/blog/${post.id}/`,
+    isSpanishOnly: false,
+  })),
+  ...spanishOnlyPosts.map((post) => ({
+    post,
+    href: `/blog/${post.id}/`,
+    isSpanishOnly: true,
+  })),
+].sort((a, b) => b.post.data.date.valueOf() - a.post.data.date.valueOf());
+
+const categories = [t('blog.filterAll'), ...new Set(feedItems.map((item) => item.post.data.category))];
+---
+
+<BaseLayout
+  title={t('blog.metaTitle')}
+  description={t('blog.metaDescription')}
+  locale="de"
+>
+  <div class="space-y-10 sm:space-y-12 py-4 sm:py-8">
+    <!-- Cabecera de la sección -->
+    <header class="space-y-4 max-w-3xl">
+      <div class="space-y-2">
+        <Badge variant="primary" size="md">
+          {t('blog.badge')}
+        </Badge>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-md-on-surface">
+          {t('blog.title')}
+        </h1>
+      </div>
+      <p class="text-base sm:text-lg text-md-on-surface-variant leading-relaxed">
+        {t('blog.subtitle')}
+      </p>
+
+      <!-- Selector de categoría accesible (Filtro) -->
+      <div class="pt-4 flex flex-wrap items-center gap-2" role="tablist" aria-label={t('blog.filterAria')}>
+        {categories.map((cat, index) => (
+          <button
+            type="button"
+            role="tab"
+            aria-selected={index === 0 ? 'true' : 'false'}
+            data-category={cat}
+            data-all-label={t('blog.filterAll')}
+            class:list={[
+              'filter-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 border',
+              index === 0
+                ? 'active bg-md-primary text-md-on-primary border-transparent shadow-sm'
+                : 'bg-md-surface-container-low text-md-on-surface-variant border-md-outline-variant/30 hover:bg-md-surface-container hover:text-md-on-surface'
+            ]}
+          >
+            {cat} {cat === t('blog.filterAll') ? `(${feedItems.length})` : `(${feedItems.filter((i) => i.post.data.category === cat).length})`}
+          </button>
+        ))}
+      </div>
+    </header>
+
+    <!-- Grilla de Artículos -->
+    <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+      {feedItems.map(({ post, href, isSpanishOnly }) => (
+        <BlogCard
+          post={post}
+          href={href}
+          locale="de"
+          isSpanishOnly={isSpanishOnly}
+        />
+      ))}
+    </div>
+
+    <!-- Estado vacío si el filtro no arroja resultados -->
+    <div id="empty-state" class="hidden text-center py-16 space-y-3 bg-md-surface-container-low rounded-3xl border border-md-outline-variant/30 p-8">
+      <p class="text-lg font-semibold text-md-on-surface">{t('blog.emptyTitle')}</p>
+      <p class="text-sm text-md-on-surface-variant">{t('blog.emptyDescription')}</p>
+    </div>
+  </div>
+
+  <!-- Script interactivo de filtrado de categorías sin librerías externas -->
+  <script is:inline>
+    (function () {
+      const buttons = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.post-card');
+      const emptyState = document.getElementById('empty-state');
+
+      const ACTIVE_CLASSES = ['active', 'bg-md-primary', 'text-md-on-primary', 'border-transparent', 'shadow-sm'];
+      const INACTIVE_CLASSES = ['bg-md-surface-container-low', 'text-md-on-surface-variant', 'border-md-outline-variant/30'];
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const selectedCategory = btn.getAttribute('data-category');
+          const allLabel = btn.getAttribute('data-all-label') || 'Alle';
+
+          buttons.forEach((b) => {
+            const isTarget = b === btn;
+            b.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+            if (isTarget) {
+              b.classList.add(...ACTIVE_CLASSES);
+              b.classList.remove(...INACTIVE_CLASSES);
+            } else {
+              b.classList.remove(...ACTIVE_CLASSES);
+              b.classList.add(...INACTIVE_CLASSES);
+            }
+          });
+
+          let visibleCount = 0;
+          cards.forEach((card) => {
+            const cardCategory = card.getAttribute('data-category');
+            if (selectedCategory === allLabel || cardCategory === selectedCategory) {
+              card.classList.remove('hidden');
+              visibleCount++;
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+
+          if (emptyState) {
+            if (visibleCount === 0) {
+              emptyState.classList.remove('hidden');
+            } else {
+              emptyState.classList.add('hidden');
+            }
+          }
+        });
+      });
+    })();
+  </script>
+</BaseLayout>
+
